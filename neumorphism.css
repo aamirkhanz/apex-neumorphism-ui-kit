@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.4 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.5 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -279,6 +279,9 @@ html.nm-dark {
   --a-button-count-text-color: var(--nm-on-accent);
   /* fields: a little more room than the compact default, so the pressed-in well reads as a field */
   --a-field-input-padding-y: .5rem;
+  --a-field-input-padding-x: .75rem;   /* text clear of the rounded edge */
+  --ut-field-input-icon-padding-x: .75rem;   /* item icons too */
+  --a-combo-box-padding-x: .5rem;
   --a-field-input-background-color: var(--nm-bg);
   --a-field-input-hover-background-color: var(--nm-bg);
   --a-field-input-focus-background-color: var(--nm-bg);
@@ -941,15 +944,67 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
 .apex-item-option input:checked + label::before { background-color: var(--nm-accent) !important; box-shadow: var(--nm-raised-sm) !important; }
 .apex-item-option input:focus-visible + label::before { box-shadow: var(--nm-inset-sm), var(--nm-focus) !important; }
 .apex-item-radio input + label::before { border-radius: 50% !important; }
-/* pill button style for radio and checkbox groups */
-.apex-item-group--rc.t-Form-fieldContainer--radioButtonGroup .apex-item-option label,
-.t-Form-fieldContainer--radioButtonGroup .apex-item-radio label {
-  border: 0;
-  border-radius: var(--nm-radius-sm);
-  background: var(--nm-bg);
-  box-shadow: var(--nm-raised-sm);
+/* radio group shown as pill buttons: a segmented control - one pressed-in well, flat options, the chosen one raised */
+.t-Form-fieldContainer--radioButtonGroup .apex-item-group--rc .apex-item-grid-row {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: calc(var(--nm-radius-sm) + 4px);
+  background: var(--nm-well);
+  box-shadow: var(--nm-inset-sm);
 }
-.t-Form-fieldContainer--radioButtonGroup .apex-item-radio input:checked + label { color: var(--nm-accent-text); box-shadow: var(--nm-inset-sm); }
+.t-Form-fieldContainer--radioButtonGroup .apex-item-group--rc .apex-item-option { flex: 1 1 0; margin: 0; }
+.t-Form-fieldContainer--radioButtonGroup .apex-item-group--rc .apex-item-option label {
+  width: 100%;
+  margin: 0;
+  border: 0 !important;
+  border-radius: var(--nm-radius-sm) !important;
+  background: transparent !important;
+  color: var(--nm-text-2) !important;
+  box-shadow: none !important;
+}
+.t-Form-fieldContainer--radioButtonGroup .apex-item-group--rc .apex-item-option label:hover { color: var(--nm-text) !important; }
+/* Iris gives every "hot" control near-black colors on the element itself: point them at the accent */
+.a-Button--hot, .a-CardView-button--hot, .apex-button-group input:checked + label, .t-Button--hot, .ui-button--hot,
+.t-Form-fieldContainer--radioButtonGroup .apex-item-group--rc input:checked + label {
+  --a-button-background-color: var(--nm-accent);
+  --a-button-text-color: var(--nm-on-accent);
+  --a-button-hover-background-color: var(--nm-accent-hover);
+  --a-button-hover-text-color: var(--nm-on-accent);
+  --a-button-border-color: transparent;
+  --a-button-hover-border-color: transparent;
+}
+.ui-button--hot, .a-CardView-button--hot { background: var(--nm-accent-fill) !important; color: var(--nm-on-accent) !important; box-shadow: var(--nm-accent-shadow) !important; }
+/* the chosen pill of a radio group shown as pill buttons: pressed in, accent text */
+.t-Form-fieldContainer--radioButtonGroup .apex-item-group--rc .apex-item-option input:checked + label,
+.apex-button-group input:checked + label {
+  background: var(--nm-bg) !important;
+  color: var(--nm-accent-text) !important;
+  box-shadow: var(--nm-raised-sm) !important;
+  font-weight: 700;
+}
+
+/* radios and checkboxes: Universal Theme outlines the label of the focused input, also after a click; keep an
+   accent ring for the keyboard only */
+.apex-item-option input:focus:not(:focus-visible) + label { outline: none !important; }
+.apex-item-option input:focus-visible + label { outline: 2px solid var(--nm-accent) !important; outline-offset: 2px; }
+/* floating label fields use their own, smaller padding: the same room as other fields */
+.t-Form-fieldContainer--floatingLabel { --a-field-input-padding-x: .75rem; }
+
+/* list boxes (shuttle, select multiple): rounded rows, and the selected row in the accent instead of the browser's grey */
+select[multiple], select[size]:not([size="1"]) { padding: 6px; }
+select[multiple] option, select[size]:not([size="1"]) option { padding: 5px 10px; border-radius: 8px; color: var(--nm-text); }
+select[multiple] option:checked, select[size]:not([size="1"]) option:checked {
+  background: linear-gradient(var(--nm-accent-tint), var(--nm-accent-tint)) !important;
+  color: var(--nm-accent-text) !important;
+  font-weight: 600;
+}
+
+/* scrollbars inside list boxes, text areas and scrolling regions: thin and soft */
+select[multiple], select[size]:not([size="1"]), textarea, .t-Region-body, .a-GV-bdy, .a-IRR-tableContainer, .a-TreeView, .ui-dialog-content {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--nm-text-3) 55%, transparent) transparent;
+}
 /* switch: the track sinks in, the knob is raised */
 .a-Switch .a-Switch-toggle { border: 0; background-color: var(--nm-bg); box-shadow: var(--nm-inset-sm); }
 .a-Switch .a-Switch-toggle::before { background-color: var(--nm-surface-2); box-shadow: var(--nm-raised-sm); }

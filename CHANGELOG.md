@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.5 (2026-10-30)
+
+- Fields: more room on the left and right (0.75rem), also for floating labels and item icons, so text and icons stay clear of the rounded edge.
+- Radio groups shown as pill buttons: a segmented control - one pressed-in well with the chosen option raised in the accent color (it was near-black).
+- Hot controls everywhere (dialog OK buttons, Cards buttons, button groups) use the accent instead of Universal Theme's near-black.
+- Radios and checkboxes: no black focus ring after a click; keyboard focus shows an accent ring.
+- List boxes (shuttle, select multiple): rounded rows, the selected row in the accent tint; thin, soft scrollbars in list boxes, text areas and scrolling regions.
+
 ## 1.0.4 (2026-10-30)
 
 - Page messages: the close button no longer moves on hover; the message icon has no off-center circle behind it.
