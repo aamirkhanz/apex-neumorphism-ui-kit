@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6 (2026-10-30)
+
+- Badge List with colors (u-colors): the labels take the tile's contrast color, like the values, so they are readable on dark and light tiles.
+
 ## 1.0.5 (2026-10-30)
 
 - Fields: more room on the left and right (0.75rem), also for floating labels and item icons, so text and icons stay clear of the rounded edge.

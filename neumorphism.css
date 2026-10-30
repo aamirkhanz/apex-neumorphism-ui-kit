@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.5 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.6 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -1192,6 +1192,8 @@ a.t-MediaList-itemWrap:active { box-shadow: var(--nm-inset-sm); }
 .t-BadgeList--circular:not(.u-colors) .t-BadgeList-value { border-radius: 50%; padding: 0; box-shadow: var(--nm-raised) !important; }
 .t-BadgeList:not(.u-colors) .t-BadgeList-label { color: var(--nm-text-2); }
 .t-BadgeList.u-colors .t-BadgeList-wrap { box-shadow: var(--nm-raised-sm); }
+/* on colored tiles the label takes the tile's contrast color, like the value */
+.t-BadgeList.u-colors .t-BadgeList-label { color: inherit !important; opacity: .88; }
 .t-BadgeList:not(.u-colors) a.t-BadgeList-wrap:hover .t-BadgeList-value { box-shadow: var(--nm-inset-sm) !important; }
 
 /* cards (list and report templates) */
