@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.3 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.4 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -1225,6 +1225,13 @@ a.t-MediaList-itemWrap:active { box-shadow: var(--nm-inset-sm); }
 .t-BadgeList.u-colors .t-BadgeList-wrap { box-shadow: var(--nm-raised-sm); }
 /* on colored tiles the label takes the tile's contrast color, like the value */
 .t-BadgeList.u-colors .t-BadgeList-label { color: inherit !important; opacity: .88; }
+/* colored lists with Circular values: the count sits in a clear circle inside the tile (the tile keeps room for it) */
+.t-BadgeList--circular.u-colors .t-BadgeList-wrap { padding-block: 14px 10px; }
+.t-BadgeList--circular.u-colors .t-BadgeList-value {
+  margin-block-end: 6px;
+  background: rgba(0, 0, 0, .14) !important;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .35), inset 0 2px 5px rgba(0, 0, 0, .18) !important;
+}
 .t-BadgeList:not(.u-colors) a.t-BadgeList-wrap:hover .t-BadgeList-value { box-shadow: var(--nm-inset-sm) !important; }
 
 /* cards (list and report templates) */
