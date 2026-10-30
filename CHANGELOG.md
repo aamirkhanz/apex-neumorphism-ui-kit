@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.9 (2026-10-30)
+
+- Tabs Container: one raised card, with the tab bar pressed in at its top and the tab's content padded below it.
+
 ## 1.0.8 (2026-10-30)
 
 - Carousel: with previous / next buttons, the slides keep a gutter on each side, so the buttons never cover the slide's content.

@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.8 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.9 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -677,7 +677,17 @@ body { background: var(--nm-bg); color: var(--nm-text); }
 .t-ItemContainer { border-radius: var(--nm-radius); }
 
 /* tabs container and tabs list: the tab bar sinks in, the active tab is raised */
-.t-TabsRegion { border: 0; background: transparent; }
+/* tabs container: one raised card, the tab bar pressed in at its top and the tab's content below */
+.t-TabsRegion {
+  margin-block-end: var(--ut-region-margin, 1rem);
+  padding: 10px;
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised);
+}
+.t-TabsRegion .t-TabsRegion-items, .t-TabsRegion > .a-Tabs-panel, .t-TabsRegion-items > .a-Tabs-panel { padding: 14px 8px 6px; }
+.t-TabsRegion .t-TabsRegion-items .t-Region { box-shadow: none; background: transparent; }
 .t-Tabs {
   gap: 6px;
   padding: 6px;
