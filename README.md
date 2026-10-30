@@ -9,7 +9,7 @@ A soft, tactile look for Oracle APEX Universal Theme: surfaces share the page co
 | | |
 |---|---|
 | **Files** | `neumorphism.css` (the look), `neumorphism.js` (optional light/dark switch) |
-| **Version** | 1.1.2 |
+| **Version** | 1.1.3 |
 | **Built for** | Oracle APEX 26.2, Universal Theme with the Iris theme style (tested); other styles are not tested yet |
 | **License** | MIT |
 
@@ -92,4 +92,4 @@ MIT, see [LICENSE](LICENSE).
 
 ## More
 
-Plug-ins and updates for Oracle APEX by [TechRevX](https://www.techrevx.com). See also the [Glassmorphism UI Kit](https://github.com/aamirkhanz/apex-glassmorphism-ui-kit).
+Plug-ins and updates for Oracle APEX by [TechRevX](https://www.techrevx.com). See also the [Glassmorphism UI Kit](https://github.com/aamirkhanz/apex-glassmorphism-ui-kit) and the [Skeuomorphism UI Kit](https://github.com/aamirkhanz/apex-skeuomorphism-ui-kit).

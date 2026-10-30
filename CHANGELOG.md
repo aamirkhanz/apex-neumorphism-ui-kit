@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3 (2026-10-30)
+
+- Select one / select many fields and the color picker take the well color like every other field.
+
 ## 1.1.2 (2026-10-30)
 
 - Fields drawn by APEX web components (auto complete, date picker) and fields in item groups (password, popup LOV) take the well color like every other field.

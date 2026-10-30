@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.2 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.3 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -894,7 +894,7 @@ body { background: var(--nm-bg); color: var(--nm-text); }
 .t-Form-itemWrapper > :is(input.apex-item-text, input.text_field, input.password, input.number_field, input.datepicker, input.popup_lov,
   input.apex-item-popup-lov, select.apex-item-select, select.selectlist, textarea.apex-item-textarea, textarea.textarea),
 .t-Form-itemWrapper > :is(input, select, textarea):focus,
-.apex-item-comboselect, .a-Combobox, .apex-item-select-many, .shuttle_left, .shuttle_right,
+.apex-item-comboselect, .a-Combobox, .apex-item-select-many, .shuttle_left, .shuttle_right, .apex-item-color-picker, .a-ColorPicker-input,
 .a-IRR-search-field, .a-Toolbar-input, .a-FS-search input, .a-SmartFilter-input,
 .ui-input-search, .ui-filterable input, input[data-type="search"],
 .ck.ck-editor__editable.ck-editor__editable_inline, .ck.ck-editor__main > .ck-editor__editable {
@@ -1074,7 +1074,7 @@ select[multiple], select[size]:not([size="1"]), textarea, .t-Region-body, .a-GV-
 .apex-item-comboselect {
   border-color: transparent !important;
   border-radius: var(--nm-radius-sm) !important;
-  background-color: var(--nm-bg) !important;
+  background-color: var(--nm-well) !important;
   box-shadow: var(--nm-inset) !important;
 }
 .apex-item-comboselect:focus-within { box-shadow: var(--nm-inset), var(--nm-focus) !important; }
