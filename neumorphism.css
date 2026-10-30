@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.7 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.8 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -709,6 +709,10 @@ body { background: var(--nm-bg); color: var(--nm-text); }
 .a-Region-carouselLink { border-radius: 50%; background: var(--nm-bg); box-shadow: var(--nm-inset-sm); }
 .a-Region-carouselNavItem.a-Tabs-selected .a-Region-carouselLink { background: var(--nm-accent); box-shadow: var(--nm-raised-sm); }
 .t-Region--carousel .t-Region-carouselRegions .t-Region { box-shadow: none; background: transparent; }
+/* with previous / next buttons, the slides keep a gutter on each side so the buttons never cover their content */
+.t-Region--showCarouselControls .a-Region-carouselItem { box-sizing: border-box; padding-inline: 64px; }
+.t-Region--showCarouselControls .a-Region-carouselItem .t-Region-header,
+.t-Region--showCarouselControls .a-Region-carouselItem .t-Region-body { padding-inline: 0; }
 
 /* region display selector: the same pressed-in tab bar as Tabs, the selected entry raised */
 .a-RDS-list.a-Tabs, .apex-rds {

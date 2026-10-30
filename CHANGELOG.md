@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.8 (2026-10-30)
+
+- Carousel: with previous / next buttons, the slides keep a gutter on each side, so the buttons never cover the slide's content.
+
 ## 1.0.7 (2026-10-30)
 
 - Stacked avatars: a smaller overlap without the cut-out crescent, a ring in the page color between them and a soft accent fill, so every avatar and its initials are readable.
