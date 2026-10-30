@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 (2026-10-30)
+
+- The APEX Developer Toolbar keeps its own look; the kit no longer turns its buttons into raised neumorphic buttons.
+- Single checkboxes (for example "I accept the terms"): checked, the box fills with the accent color like in checkbox groups, and a click no longer leaves a focus ring.
+
 ## 1.1.0 (2026-10-30)
 
 - Light mode is built on a soft, neutral white (#E3E3E3) instead of a blue-grey; popups are a step lighter (#E9E9E9), fields #DCDCDC, and text, lines and shadows are neutral grey. The accent color is unchanged.

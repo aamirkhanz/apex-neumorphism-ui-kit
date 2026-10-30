@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.0 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.1 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -964,8 +964,10 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
   background-color: var(--nm-bg) !important;
   box-shadow: var(--nm-inset-sm) !important;
 }
-.apex-item-option input:checked + label::before { background-color: var(--nm-accent) !important; box-shadow: var(--nm-raised-sm) !important; }
-.apex-item-option input:focus-visible + label::before { box-shadow: var(--nm-inset-sm), var(--nm-focus) !important; }
+.apex-item-option input:checked + label::before,
+input:checked + .u-checkbox::before, input:checked + .u-radio::before { background-color: var(--nm-accent) !important; box-shadow: var(--nm-raised-sm) !important; }
+.apex-item-option input:focus-visible + label::before,
+input:focus-visible + .u-checkbox::before, input:focus-visible + .u-radio::before { box-shadow: var(--nm-inset-sm), var(--nm-focus) !important; }
 .apex-item-radio input + label::before { border-radius: 50% !important; }
 /* radio group shown as pill buttons: a segmented control - one pressed-in well, flat options, the chosen one raised */
 .t-Form-fieldContainer--radioButtonGroup .apex-item-group--rc .apex-item-grid-row {
@@ -1009,8 +1011,11 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
 
 /* radios and checkboxes: Universal Theme outlines the label of the focused input, also after a click; keep an
    accent ring for the keyboard only */
-.apex-item-option input:focus:not(:focus-visible) + label { outline: none !important; }
-.apex-item-option input:focus-visible + label { outline: 2px solid var(--nm-accent) !important; outline-offset: 2px; }
+.apex-item-option input:focus:not(:focus-visible) + label,
+input:focus:not(:focus-visible) + :is(.u-checkbox, .u-radio),
+input:focus:not(:focus-visible) + :is(.u-checkbox, .u-radio)::before { outline: none !important; }
+.apex-item-option input:focus-visible + label,
+input:focus-visible + :is(.u-checkbox, .u-radio) { outline: 2px solid var(--nm-accent) !important; outline-offset: 2px; }
 /* floating label fields use their own, smaller padding: the same room as other fields */
 .t-Form-fieldContainer--floatingLabel { --a-field-input-padding-x: .75rem; }
 
@@ -1141,17 +1146,17 @@ html:root {
 /* display only */
 .t-Form-itemWrapper > .display_only { color: var(--nm-text); }
 
-/* APEX widget buttons (popup LOV dialog, IG and IR toolbars, date picker) */
-.a-Button:not(.a-Button--noUI):not(.a-Button--link):not(.t-Button) {
+/* APEX widget buttons (popup LOV dialog, IG and IR toolbars, date picker); the Developer Toolbar keeps APEX's look */
+.a-Button:not(.a-Button--noUI):not(.a-Button--link):not(.t-Button):not(.a-Button--devToolbar) {
   border: 0;
   border-radius: 10px;
   background: var(--nm-bg);
   color: var(--nm-text);
   box-shadow: var(--nm-raised-sm);
 }
-.a-Button:not(.a-Button--noUI):not(.a-Button--link):not(.t-Button):hover { color: var(--nm-accent-text); }
-.a-Button:not(.a-Button--noUI):not(.a-Button--link):not(.t-Button):active,
-.a-Button.is-active:not(.a-Button--noUI) { box-shadow: var(--nm-inset-sm); }
+.a-Button:not(.a-Button--noUI):not(.a-Button--link):not(.t-Button):not(.a-Button--devToolbar):hover { color: var(--nm-accent-text); }
+.a-Button:not(.a-Button--noUI):not(.a-Button--link):not(.t-Button):not(.a-Button--devToolbar):active,
+.a-Button.is-active:not(.a-Button--noUI):not(.a-Button--devToolbar) { box-shadow: var(--nm-inset-sm); }
 .a-Button--hot:not(.t-Button) { background: var(--nm-accent-fill) !important; color: var(--nm-on-accent) !important; box-shadow: var(--nm-accent-shadow) !important; }
 
 /* date picker popup */
