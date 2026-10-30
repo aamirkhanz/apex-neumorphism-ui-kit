@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.4 (2026-10-30)
+
+- Page messages: the close button no longer moves on hover; the message icon has no off-center circle behind it.
+- Required fields with floating labels: the required dot sits in the corner, clear of the label when it moves up.
+
 ## 1.0.3 (2026-10-30)
 
 - Required fields with floating labels: the required marker is a small red dot inside the rounded corner instead of a square triangle over the field's edge.
