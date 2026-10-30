@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.6 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.7 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -1367,8 +1367,19 @@ a.t-MediaList-itemWrap:active { box-shadow: var(--nm-inset-sm); }
 .t-Avatar img { border-radius: inherit; }
 .t-Avatar[class*="u-color-"] { box-shadow: var(--nm-raised-sm); }
 .t-Avatar--noShape { background: transparent; box-shadow: none; }
-/* stacked avatars overlap: a ring in the page color keeps them apart */
-.t-Avatars--spacingStack .t-Avatar { box-shadow: 0 0 0 3px var(--nm-bg), var(--nm-raised-sm); }
+/* stacked avatars: a fifth overlap (Universal Theme uses half and cuts a crescent out of each, which hides the
+   initials); a ring in the page color keeps them apart instead */
+.t-Avatars--spacingStack { --ut-stack-avatar-offset: 5; }
+.t-Avatars--spacingStack .t-Avatar {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  clip-path: none !important;
+  box-shadow: 0 0 0 3px var(--nm-bg), var(--nm-raised-sm);
+}
+/* without a color of their own, stacked avatars get a soft accent fill so each circle stands out from the one below */
+.t-Avatars--spacingStack .t-Avatar:not([class*="u-color-"]):not(.t-Avatar--image) {
+  background: linear-gradient(var(--nm-accent-tint), var(--nm-accent-tint)), var(--nm-bg);
+}
 .t-Badge {
   border: 0;
   border-radius: var(--nm-radius-pill);

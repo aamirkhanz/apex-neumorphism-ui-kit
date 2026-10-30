@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7 (2026-10-30)
+
+- Stacked avatars: a smaller overlap without the cut-out crescent, a ring in the page color between them and a soft accent fill, so every avatar and its initials are readable.
+
 ## 1.0.6 (2026-10-30)
 
 - Badge List with colors (u-colors): the labels take the tile's contrast color, like the values, so they are readable on dark and light tiles.
