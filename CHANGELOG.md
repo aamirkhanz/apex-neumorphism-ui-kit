@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 (2026-10-30)
+
+- Fields in error keep their soft pressed-in look, with a light red tint and a thin soft red edge instead of a hard red ring.
+
 ## 1.0.1 (2026-10-30)
 
 - No focus ring after a mouse click or tap (for example on a collapsible region's title, or the side navigation with `neumorphism.js`); keyboard focus keeps its ring.

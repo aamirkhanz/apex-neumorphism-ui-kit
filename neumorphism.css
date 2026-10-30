@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.1 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.2 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -900,7 +900,20 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
 .t-Form-label { color: var(--nm-text); font-weight: 600; }
 .t-Form-helpText, .t-Form-inlineHelp { color: var(--nm-text-2); }
 .t-Form-error, .a-Form-error { color: var(--nm-danger); }
-.apex-page-item-error, .t-Form-itemWrapper > .apex-page-item-error { box-shadow: var(--nm-inset), 0 0 0 2px var(--nm-danger) !important; }
+/* fields in error: the same soft well with a light red tint and a thin soft red edge, not a hard ring */
+.t-Form-itemWrapper > .apex-page-item-error,
+.apex-page-item-error:is(input, select, textarea),
+.apex-item-comboselect:has(.apex-page-item-error) {
+  border-color: transparent !important;
+  background-image: linear-gradient(var(--nm-danger-tint), var(--nm-danger-tint)) !important;
+  box-shadow: var(--nm-inset), 0 0 0 1px color-mix(in srgb, var(--nm-danger) 40%, transparent) !important;
+}
+.t-Form-itemWrapper > .apex-page-item-error:focus,
+.apex-page-item-error:is(input, select, textarea):focus {
+  box-shadow: var(--nm-inset), 0 0 0 1px color-mix(in srgb, var(--nm-danger) 40%, transparent), var(--nm-focus) !important;
+}
+.t-Form-fieldContainer.is-error .t-Form-label, .t-Form-fieldContainer--floatingLabel.is-error .t-Form-label { color: var(--nm-danger); }
+.t-Form-error { margin-top: 6px; font-size: 12.5px; }
 .t-Form-helpButton .a-Icon, .t-Form-helpButton { color: var(--nm-text-3); }
 /* floating labels: the label sits inside the pressed-in field */
 .t-Form-fieldContainer--floatingLabel .t-Form-inputContainer { background: transparent; }
