@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 (2026-10-30)
+
+- Light mode is built on a soft, neutral white (#E3E3E3) instead of a blue-grey; popups are a step lighter (#E9E9E9), fields #DCDCDC, and text, lines and shadows are neutral grey. The accent color is unchanged.
+- Fields the browser fills in (saved user names and passwords) keep the soft well instead of the browser's white-blue.
+- Interactive Grid and Interactive Report: no vertical lines, a light header with one soft line, and the grid's search is one pressed-in pill.
+- Interactive Report highlights stay readable in dark mode.
+- Colored badges are crisp (no inner shadow); Contextual Info items have padding; Comments fit inside their region.
+
 ## 1.0.11 (2026-10-30)
 
 - Navigation Bar lists in the page body: raised buttons like in the header, and the bar wraps instead of cutting off items in narrow regions.
