@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.1 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.2 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -291,7 +291,7 @@ html.nm-dark {
   --a-field-input-border-color: transparent;
   --a-field-input-focus-border-color: transparent;
   --a-field-input-border-radius: var(--nm-radius-sm);
-  --a-field-input-state-background-color: var(--nm-hover);
+  --a-field-input-state-background-color: var(--nm-well);   /* fields drawn by APEX web components and item groups */
   --a-field-input-state-border-color: transparent;
   --a-field-input-state-text-color: var(--nm-text-2);
   --a-form-error-text-color: var(--nm-danger);
