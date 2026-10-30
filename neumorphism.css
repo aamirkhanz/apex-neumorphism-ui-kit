@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.0 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.1 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -634,6 +634,23 @@ body { background: var(--nm-bg); color: var(--nm-text); }
 .t-Alert--page.t-Alert--success { box-shadow: var(--nm-float), inset 4px 0 0 var(--nm-success); }
 .t-Alert--page.t-Alert--warning { box-shadow: var(--nm-float), inset 4px 0 0 var(--nm-danger); }
 .t-Alert--removeHeading .t-Alert-title { display: none; }
+/* the close button of page messages: a small round raised button inside the message */
+.t-Alert--page .t-Alert-wrap { padding-inline-end: 48px; }
+.t-Alert--page .t-Button--closeAlert {
+  top: 50% !important;
+  right: 12px !important;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50% !important;
+  background: var(--nm-bg) !important;
+  color: var(--nm-text-2) !important;
+  box-shadow: var(--nm-raised-sm) !important;
+  transform: translateY(-50%);
+}
+.t-Alert--page .t-Button--closeAlert:hover { color: var(--nm-text) !important; }
+.t-Alert--page .t-Button--closeAlert:active { box-shadow: var(--nm-inset-sm) !important; }
+.t-Alert--page .t-Button--closeAlert .t-Icon { color: inherit; font-size: 12px; }
 
 /* title bar, breadcrumb */
 .t-BreadcrumbRegion { background: transparent; border: 0; box-shadow: none; }
@@ -1396,6 +1413,11 @@ a.t-MediaList-itemWrap:active { box-shadow: var(--nm-inset-sm); }
    11. Focus and motion
    ===================================================================================================================== */
 :focus-visible { outline-color: var(--nm-accent); }
+/* no focus ring after a mouse click or tap (Universal Theme draws some on :focus); the keyboard keeps it */
+html :is(button, a, [role="button"], [role="tab"], [tabindex]):focus:not(:focus-visible) { outline: none !important; }
+/* the side navigation and trees focus the clicked entry from script, which counts as keyboard focus:
+   neumorphism.js sets nm-pointer on <html> after mouse or touch input */
+html.nm-pointer :is(.a-TreeView-label, .a-TreeView-content, .t-Region-titleButton):focus { outline: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .t-Button, .t-Card-wrap, .t-LinksList-link, .t-MediaList-itemWrap, .t-Tabs-link, .t-ContentRow-wrap { transition: none !important; transform: none !important; }
 }

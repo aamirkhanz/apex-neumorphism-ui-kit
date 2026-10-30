@@ -1,5 +1,5 @@
 /*
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.0: light and dark mode
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.1: light and dark mode
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * The look is in neumorphism.css; this file only switches between light and dark. Without it the kit stays light,
@@ -87,6 +87,11 @@
         const s = saved();
         apply( s === "light" || s === "dark" ? s : system() );
     }
+
+    // remember whether the last input was a pointer: some widgets focus from script, and the CSS shows their
+    // focus ring only for keyboard use (html.nm-pointer)
+    document.addEventListener( "pointerdown", () => root.classList.add( "nm-pointer" ), true );
+    document.addEventListener( "keydown", () => root.classList.remove( "nm-pointer" ), true );
 
     document.addEventListener( "click", e => {
         const b = e.target.closest && e.target.closest( "[data-nm-mode-toggle]" );
