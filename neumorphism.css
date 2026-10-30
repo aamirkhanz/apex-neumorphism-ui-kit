@@ -1,0 +1,1401 @@
+/*!
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.0 (built and tested with APEX 26.2, theme style Iris)
+ * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
+ *
+ * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
+ * (raised), or sink into the page (inset). Works with every Universal Theme component; light and dark mode.
+ *
+ * Use it in any application:
+ *   1. Upload neumorphism.css (and neumorphism.js for the light/dark switch) as Static Application Files.
+ *   2. Shared Components > User Interface Attributes > CSS > File URLs:          #APP_FILES#neumorphism.css
+ *                                                       JavaScript > File URLs:  #APP_FILES#neumorphism.js
+ *   3. Optional: dark mode. neumorphism.js switches it (window.neumorphism.toggle(), buttons with
+ *      data-nm-mode-toggle); see its header for the one-line snippet that avoids a flash on page load.
+ *      Without the JavaScript, add class "nm-dark" to <html> yourself for dark.
+ *
+ * Customize: override the --nm-* tokens below in your own CSS, for example
+ *   :root { --nm-accent: #0e9f6e; --nm-accent-2: #0b7a55; --nm-radius: 14px; --nm-depth: 5px; }
+ * Helper classes for your own regions and items: nm-raised, nm-raised-sm, nm-inset, nm-flat, nm-convex, nm-pill.
+ * Accessibility: text colors meet WCAG AA on the surfaces; keyboard focus always shows a ring; motion is reduced
+ * when the user asks for it.
+ */
+
+/* =====================================================================================================================
+   1. Tokens
+   ===================================================================================================================== */
+:root,
+html.nm-light {
+  color-scheme: light;
+  --nm-bg: #e3e8ef;                 /* page and surfaces */
+  --nm-well: #dde3eb;               /* pressed-in fields: a touch darker, so they read as fields */
+  --nm-surface-2: #eaeef4;          /* popups, menus, dialogs: a step lighter */
+  --nm-text: #283041;
+  --nm-text-2: #566176;
+  --nm-text-3: #7d8799;
+  --nm-line: rgba(40, 48, 65, .1);
+  --nm-hover: rgba(40, 48, 65, .045);
+
+  --nm-accent: #5468ee;
+  --nm-accent-2: #8058f2;           /* end of the accent gradient */
+  --nm-accent-hover: #4558df;
+  --nm-on-accent: #fff;
+  --nm-accent-text: #3f4fd4;        /* accent as text on the surface (AA) */
+  --nm-accent-tint: rgba(84, 104, 238, .13);
+  --nm-accent-fill: linear-gradient(135deg, var(--nm-accent), var(--nm-accent-2));
+
+  --nm-success: #13865a;  --nm-success-tint: rgba(19, 134, 90, .13);
+  --nm-warning: #a36a00;  --nm-warning-tint: rgba(196, 132, 12, .16);
+  --nm-danger: #c93636;   --nm-danger-tint: rgba(201, 54, 54, .12);
+  --nm-info: #2a6fc0;     --nm-info-tint: rgba(42, 111, 192, .12);
+
+  /* depth: the two shadow colors and the distance */
+  --nm-shadow-light: rgba(255, 255, 255, .75);
+  --nm-shadow-dark: rgba(155, 168, 190, .4);
+  --nm-depth: 5px;
+  --nm-blur: calc(var(--nm-depth) * 3);
+
+  --nm-raised: var(--nm-depth) var(--nm-depth) var(--nm-blur) var(--nm-shadow-dark),
+               calc(var(--nm-depth) * -1) calc(var(--nm-depth) * -1) var(--nm-blur) var(--nm-shadow-light);
+  --nm-raised-sm: calc(var(--nm-depth) * .5) calc(var(--nm-depth) * .5) calc(var(--nm-blur) * .5) var(--nm-shadow-dark),
+                  calc(var(--nm-depth) * -.5) calc(var(--nm-depth) * -.5) calc(var(--nm-blur) * .5) var(--nm-shadow-light);
+  --nm-raised-lg: calc(var(--nm-depth) * 1.4) calc(var(--nm-depth) * 1.4) calc(var(--nm-blur) * 1.4) var(--nm-shadow-dark),
+                  calc(var(--nm-depth) * -1.4) calc(var(--nm-depth) * -1.4) calc(var(--nm-blur) * 1.4) var(--nm-shadow-light);
+  --nm-inset: inset calc(var(--nm-depth) * .6) calc(var(--nm-depth) * .6) var(--nm-blur) var(--nm-shadow-dark),
+              inset calc(var(--nm-depth) * -.6) calc(var(--nm-depth) * -.6) var(--nm-blur) var(--nm-shadow-light);
+  --nm-inset-sm: inset 2px 2px 6px var(--nm-shadow-dark), inset -2px -2px 6px var(--nm-shadow-light);
+  /* things that float above the page (dialogs, menus, popups): a soft drop shadow, no highlight halo */
+  --nm-float: 0 16px 40px -14px rgba(30, 40, 60, .2), 0 2px 8px -2px rgba(30, 40, 60, .07);
+  --nm-accent-shadow: 0 6px 16px -8px color-mix(in srgb, var(--nm-accent) 55%, transparent), inset 1px 1px 0 rgba(255, 255, 255, .2);
+  --nm-focus: 0 0 0 3px color-mix(in srgb, var(--nm-accent) 38%, transparent);
+
+  --nm-radius: 18px;
+  --nm-radius-sm: 12px;
+  --nm-radius-lg: 26px;
+  --nm-radius-pill: 999px;
+  --nm-speed: .18s;
+}
+
+html.nm-dark {
+  color-scheme: dark;
+  --nm-bg: #262b35;
+  --nm-well: #1d2129;
+  --nm-surface-2: #2c323d;
+  --nm-text: #e4e8f0;
+  --nm-text-2: #a8b0c0;
+  --nm-text-3: #7a8396;
+  --nm-line: rgba(255, 255, 255, .08);
+  --nm-hover: rgba(255, 255, 255, .045);
+
+  --nm-accent: #7182ff;
+  --nm-accent-2: #a07cff;
+  --nm-accent-hover: #8794ff;
+  --nm-on-accent: #fff;
+  --nm-accent-text: #a8b2ff;
+  --nm-accent-tint: rgba(113, 130, 255, .18);
+
+  --nm-success: #4cc792;  --nm-success-tint: rgba(76, 199, 146, .15);
+  --nm-warning: #e9b04f;  --nm-warning-tint: rgba(233, 176, 79, .15);
+  --nm-danger: #f07a72;   --nm-danger-tint: rgba(240, 122, 114, .15);
+  --nm-info: #6fb0f2;     --nm-info-tint: rgba(111, 176, 242, .15);
+
+  --nm-shadow-light: rgba(255, 255, 255, .04);
+  --nm-shadow-dark: rgba(0, 0, 0, .38);
+  --nm-float: 0 16px 40px -14px rgba(0, 0, 0, .5), 0 2px 8px -2px rgba(0, 0, 0, .25);
+  --nm-accent-shadow: 0 6px 16px -8px rgba(0, 0, 0, .55), inset 1px 1px 0 rgba(255, 255, 255, .18);
+}
+
+/* =====================================================================================================================
+   2. Universal Theme and APEX widget variables point at the tokens
+   ===================================================================================================================== */
+:root {
+  --ut-color-scheme: light;
+  /* palette */
+  --ut-palette-primary: var(--nm-accent);
+  --ut-palette-primary-contrast: var(--nm-on-accent);
+  --ut-palette-primary-shade: var(--nm-accent-tint);
+  --ut-palette-primary-text: var(--nm-accent-text);
+  --ut-palette-primary-alt: var(--nm-accent);
+  --ut-palette-primary-alt-contrast: var(--nm-on-accent);
+  --ut-palette-primary-alt-shade: var(--nm-accent-tint);
+  --ut-palette-primary-alt-text: var(--nm-accent-text);
+  --ut-palette-success: var(--nm-success);
+  --ut-palette-success-contrast: #fff;
+  --ut-palette-success-shade: var(--nm-success-tint);
+  --ut-palette-success-text: var(--nm-success);
+  --ut-palette-warning: var(--nm-warning);
+  --ut-palette-warning-contrast: #fff;
+  --ut-palette-warning-shade: var(--nm-warning-tint);
+  --ut-palette-warning-text: var(--nm-warning);
+  --ut-palette-danger: var(--nm-danger);
+  --ut-palette-danger-contrast: #fff;
+  --ut-palette-danger-shade: var(--nm-danger-tint);
+  --ut-palette-danger-text: var(--nm-danger);
+  --ut-palette-info: var(--nm-info);
+  --ut-palette-info-contrast: #fff;
+  --ut-palette-info-shade: var(--nm-info-tint);
+  --ut-palette-info-text: var(--nm-info);
+  --ut-palette-generic: var(--nm-bg);
+  --ut-palette-generic-contrast: var(--nm-text);
+  --ut-palette-generic-shade: var(--nm-hover);
+  --ut-palette-generic-text: var(--nm-text);
+  --a-palette-primary: var(--nm-accent);
+  --a-palette-primary-contrast: var(--nm-on-accent);
+  --a-palette-primary-shade: var(--nm-accent-tint);
+  --a-palette-success: var(--nm-success);
+  --a-palette-danger: var(--nm-danger);
+  --a-palette-danger-shade: var(--nm-danger-tint);
+  --a-palette-info: var(--nm-info);
+  --a-palette-info-shade: var(--nm-info-tint);
+  --ut-link-text-color: var(--nm-accent-text);
+  --ut-focus-outline-color: var(--nm-accent);
+
+  /* page shell */
+  --ut-body-background-color: var(--nm-bg);
+  --ut-body-text-color: var(--nm-text);
+  --ut-body-title-background-color: var(--nm-bg);
+  --ut-body-title-text-color: var(--nm-text);
+  --ut-body-title-border-color: transparent;
+  --ut-body-title-backdrop-filter: none;
+  --ut-body-sidebar-background-color: var(--nm-bg);
+  --ut-body-sidebar-text-color: var(--nm-text);
+  --ut-body-actions-background-color: var(--nm-bg);
+  --ut-body-actions-text-color: var(--nm-text-2);
+  --ut-body-actionstoggle-background-color: var(--nm-bg);
+  --ut-body-actionstoggle-hover-background-color: var(--nm-surface-2);
+  --ut-breadcrumb-item-text-color: var(--nm-text-2);
+  --ut-breadcrumb-item-active-text-color: var(--nm-text);
+  --ut-header-background-color: var(--nm-bg);
+  --ut-header-text-color: var(--nm-text);
+  --ut-header-border-color: transparent;
+  --ut-header-box-shadow: none;
+  --ut-header-menubar-background-color: var(--nm-bg);
+  --ut-header-menubar-item-text-color: var(--nm-text);
+  --ut-header-menubar-item-border-color: transparent;
+  --ut-header-menubar-item-hover-background-color: var(--nm-hover);
+  --ut-header-menubar-item-hover-text-color: var(--nm-text);
+  --ut-header-menubar-item-current-background-color: var(--nm-accent-tint);
+  --ut-header-menubar-item-current-text-color: var(--nm-accent-text);
+  --ut-body-nav-background-color: var(--nm-bg);
+  --ut-body-nav-border-color: transparent;
+  --ut-body-nav-text-color: var(--nm-text);
+  --ut-body-nav-scrollbar-thumb-background-color: var(--nm-line);
+  --ut-body-nav-scrollbar-track-background-color: var(--nm-bg);
+  --ut-navtabs-background-color: var(--nm-bg);
+  --ut-navtabs-text-color: var(--nm-text);
+  --ut-navtabs-item-border-color: transparent;
+  --ut-navtabs-item-hover-background-color: var(--nm-hover);
+  --ut-navtabs-item-active-background-color: var(--nm-bg);
+  --ut-navtabs-item-active-highlight-color: var(--nm-accent);
+  --ut-footer-background-color: var(--nm-bg);
+  --ut-footer-border-color: transparent;
+  --ut-login-page-background-color: var(--nm-bg);
+  --ut-login-region-background-color: var(--nm-bg);
+  --ut-login-region-box-shadow: var(--nm-raised-lg);
+
+  /* components */
+  --ut-component-background-color: var(--nm-bg);
+  --ut-component-border-color: transparent;
+  --ut-component-border-width: 0px;
+  --ut-component-border-radius: var(--nm-radius);
+  --ut-component-box-shadow: var(--nm-raised);
+  --ut-component-inner-border-color: var(--nm-line);
+  --ut-component-highlight-background-color: var(--nm-hover);
+  --ut-component-toolbar-background-color: var(--nm-bg);
+  --ut-component-text-default-color: var(--nm-text);
+  --ut-component-text-title-color: var(--nm-text);
+  --ut-component-text-subtitle-color: var(--nm-text-2);
+  --ut-component-text-muted-color: var(--nm-text-2);
+  --ut-component-badge-background-color: var(--nm-bg);
+  --ut-component-badge-text-color: var(--nm-text);
+  --ut-component-badge-border-radius: var(--nm-radius-pill);
+  --ut-component-icon-background-color: var(--nm-bg);
+  --ut-component-icon-color: var(--nm-accent-text);
+  --ut-badge-border-radius: var(--nm-radius-pill);
+  --ut-region-background-color: var(--nm-bg);
+  --ut-region-text-color: var(--nm-text);
+  --ut-region-header-background-color: transparent;
+  --ut-region-header-text-color: var(--nm-text);
+  --ut-region-header-border-color: transparent;
+  --ut-region-border-width: 0px;
+  --ut-region-box-shadow: var(--nm-raised);
+  --ut-button-region-box-shadow: var(--nm-raised);
+  --ut-cardlist-box-shadow: var(--nm-raised);
+  --ut-alert-box-shadow: var(--nm-raised);
+  --ut-resultsregion-background-color: var(--nm-bg);
+  --ut-resultsregion-border-color: transparent;
+  --ut-resultsregion-search-background-color: var(--nm-bg);
+  --ut-resultsregion-search-border-color: transparent;
+  --ut-wizard-header-background-color: var(--nm-bg);
+  --ut-report-header-background-color: var(--nm-hover);
+  --ut-report-cell-border-color: var(--nm-line);
+  --ut-report-cell-hover-background-color: var(--nm-hover);
+  --ut-report-cell-alt-background-color: var(--nm-hover);
+  --ut-hero-region-title-text-color: var(--nm-text);
+  --ut-linkslist-arrow-color: var(--nm-text-3);
+  --ut-comment-chat-background-color: var(--nm-bg);
+  --ut-comment-chat-active-background-color: var(--nm-accent-tint);
+  --ut-field-label-text-color: var(--nm-text);
+  --ut-field-input-focus-icon-color: var(--nm-accent);
+  --ut-field-fl-input-focus-icon-color: var(--nm-accent);
+  --ut-field-fl-input-focus-icon-background-color: transparent;
+  --ut-tabs-item-text-color: var(--nm-text-2);
+  --ut-tabs-item-active-text-color: var(--nm-text);
+  --ut-tabs-item-hint-highlight-color: var(--nm-accent);
+  --ut-treeview-badge-background-color: var(--nm-accent);
+  --ut-treeview-badge-text-color: var(--nm-on-accent);
+  --ut-wp-marker-color: var(--nm-accent);
+  --ut-wp-track-color: var(--nm-line);
+  --ut-navbar-button-badge-background-color: var(--nm-accent);
+
+  /* shapes and depth */
+  --ut-border-radius: var(--nm-radius-sm);
+  --ut-border-radius-sm: 8px;
+  --ut-border-radius-md: var(--nm-radius-sm);
+  --ut-border-radius-lg: var(--nm-radius);
+  --ut-shadow-sm: var(--nm-raised-sm);
+  --ut-shadow-md: var(--nm-raised);
+  --ut-shadow-lg: var(--nm-raised-lg);
+
+  /* APEX widgets: buttons */
+  --a-button-background-color: var(--nm-bg);
+  --a-button-text-color: var(--nm-text);
+  --a-button-border-color: transparent;
+  --a-button-border-width: 0px;
+  --a-button-border-radius: var(--nm-radius-sm);
+  --a-button-shadow: var(--nm-raised-sm);
+  --a-button-box-shadow: var(--nm-raised-sm);
+  --a-button-hover-background-color: var(--nm-bg);
+  --a-button-hover-text-color: var(--nm-accent-text);
+  --a-button-hover-border-color: transparent;
+  --a-button-hover-shadow: var(--nm-raised);
+  --a-button-focus-background-color: var(--nm-bg);
+  --a-button-focus-border-color: transparent;
+  --a-button-active-background-color: var(--nm-bg);
+  --a-button-active-border-color: transparent;
+  --a-button-active-text-color: var(--nm-accent-text);
+  --a-button-active-shadow: var(--nm-inset-sm);
+  --a-button-state-shadow: var(--nm-inset-sm);
+  --a-button-count-background-color: var(--nm-accent);
+  --a-button-count-text-color: var(--nm-on-accent);
+  /* fields: a little more room than the compact default, so the pressed-in well reads as a field */
+  --a-field-input-padding-y: .5rem;
+  --a-field-input-background-color: var(--nm-bg);
+  --a-field-input-hover-background-color: var(--nm-bg);
+  --a-field-input-focus-background-color: var(--nm-bg);
+  --a-field-input-text-color: var(--nm-text);
+  --a-field-input-border-color: transparent;
+  --a-field-input-focus-border-color: transparent;
+  --a-field-input-border-radius: var(--nm-radius-sm);
+  --a-field-input-state-background-color: var(--nm-hover);
+  --a-field-input-state-border-color: transparent;
+  --a-field-input-state-text-color: var(--nm-text-2);
+  --a-form-error-text-color: var(--nm-danger);
+  --a-form-required-asterisk-text-color: var(--nm-danger);
+  --a-checkbox-background-color: var(--nm-bg);
+  --a-checkbox-hover-background-color: var(--nm-bg);
+  --a-checkbox-active-background-color: var(--nm-bg);
+  --a-checkbox-border-color: transparent;
+  --a-checkbox-border-radius: 6px;
+  --a-checkbox-checked-background-color: var(--nm-accent);
+  --a-checkbox-checked-text-color: var(--nm-on-accent);
+  --a-checkbox-shadow: var(--nm-inset-sm);
+  --a-switch-background-color: var(--nm-bg);
+  --a-switch-hover-background-color: var(--nm-bg);
+  --a-switch-active-background-color: var(--nm-bg);
+  --a-switch-border-color: transparent;
+  --a-switch-border-radius: var(--nm-radius-pill);
+  --a-switch-shadow: var(--nm-inset-sm);
+  --a-switch-checked-background-color: var(--nm-accent);
+  --a-switch-checked-hover-background-color: var(--nm-accent-hover);
+  --a-switch-checked-active-background-color: var(--nm-accent-hover);
+  --a-switch-toggle-background-color: var(--nm-surface-2);
+  --a-switch-toggle-hover-background-color: var(--nm-surface-2);
+  --a-switch-toggle-active-background-color: var(--nm-surface-2);
+  --a-switch-toggle-checked-background-color: #fff;
+  --a-switch-toggle-checked-hover-background-color: #fff;
+  --a-switch-toggle-checked-active-background-color: #fff;
+  --a-switch-toggle-border-color: transparent;
+  --a-switch-toggle-shadow: var(--nm-raised-sm);
+  --a-chip-border-color: transparent;
+  --a-chip-border-radius: var(--nm-radius-pill);
+  --a-chip-hover-background-color: var(--nm-hover);
+  --a-chip-active-background-color: var(--nm-accent-tint);
+  --a-chip-applied-background-color: var(--nm-accent-tint);
+  --a-chip-applied-hover-background-color: var(--nm-accent-tint);
+  --a-popuplov-chip-background-color: var(--nm-bg);
+  --a-popuplov-chip-border-color: transparent;
+  --a-popuplov-dialog-background-color: var(--nm-surface-2);
+  --a-starrating-stars-fg-color: var(--nm-warning);
+  --a-starrating-stars-bg-color: var(--nm-line);
+  --a-filedrop-border-color: color-mix(in srgb, var(--nm-text-3) 55%, transparent);
+  --a-filedrop-border-radius: var(--nm-radius);
+  --a-filedrop-dragging-background-color: var(--nm-accent-tint);
+  --a-filedrop-dragging-border-color: var(--nm-accent);
+  --a-filedrop-focus-border-color: var(--nm-accent);
+  --a-filedrop-heading-text-color: var(--nm-text);
+  --a-filedrop-text-color: var(--nm-text-2);
+  --a-mdeditor-background-color: var(--nm-bg);
+  --a-mdeditor-border-color: transparent;
+  /* menus, tooltips, toolbars */
+  --a-menu-background-color: var(--nm-surface-2);
+  --a-menu-text-color: var(--nm-text);
+  --a-menu-border-color: transparent;
+  --a-menu-border-radius: var(--nm-radius-sm);
+  --a-menu-shadow: var(--nm-float);
+  --a-menu-focused-background-color: var(--nm-accent-tint);
+  --a-menu-focused-text-color: var(--nm-text);
+  --a-menu-expanded-background-color: var(--nm-hover);
+  --a-menu-expanded-text-color: var(--nm-text);
+  --a-menu-sep-border-color: var(--nm-line);
+  --a-menu-accel-text-color: var(--nm-text-3);
+  --a-menu-callout-background-color: var(--nm-surface-2);
+  --a-menu-callout-border-color: transparent;
+  --a-menu-callout-shadow: var(--nm-float);
+  --a-menubar-background-color: var(--nm-bg);
+  --a-menubar-item-background-color: transparent;
+  --a-menubar-item-border-color: transparent;
+  --a-menubar-item-text-color: var(--nm-text);
+  --a-menubar-item-current-background-color: var(--nm-accent-tint);
+  --a-menubar-item-current-text-color: var(--nm-accent-text);
+  --a-menubar-item-split-border-color: var(--nm-line);
+  --a-menubar-item-split-icon-color: var(--nm-text-2);
+  --a-tooltip-background-color: var(--nm-text);
+  --a-tooltip-text-color: var(--nm-bg);
+  --a-toolbar-background-color: transparent;
+  --a-toolbar-border-color: transparent;
+  --a-toolbar-sep-border-color: var(--nm-line);
+  --a-kb-shortcut-background-color: var(--nm-hover);
+  --a-kb-shortcut-border-color: var(--nm-line);
+  --a-overlay-background-color: rgba(30, 36, 48, .35);
+  --a-spinner-color: var(--nm-accent);
+  --a-spinner-container-background-color: var(--nm-surface-2);
+  --a-spinner-container-shadow: var(--nm-float);
+  /* tree view (side navigation, tree region) */
+  --a-treeview-node-text-color: var(--nm-text);
+  --a-treeview-node-icon-color: var(--nm-text-2);
+  --a-treeview-node-hover-background-color: var(--nm-hover);
+  --a-treeview-node-hover-text-color: var(--nm-text);
+  --a-treeview-node-selected-background-color: transparent;
+  --a-treeview-node-selected-background-override-color: transparent;
+  --a-treeview-node-selected-text-color: var(--nm-accent-text);
+  --a-treeview-node-selected-icon-color: var(--nm-accent-text);
+  --a-treeview-node-focused-background-color: var(--nm-hover);
+  --a-treeview-node-focused-text-color: var(--nm-text);
+  --a-treeview-node-focused-shadow: inset 0 0 0 2px var(--nm-accent);
+  --a-treeview-node-active-background-color: var(--nm-accent-tint);
+  --a-treeview-node-active-text-color: var(--nm-text);
+  /* interactive grid, reports, cards, faceted search, search results */
+  --a-gv-background-color: transparent;
+  --a-gv-border-color: transparent;
+  --a-gv-cell-border-color: var(--nm-line);
+  --a-gv-header-background-color: var(--nm-hover);
+  --a-gv-header-cell-border-color: var(--nm-line);
+  --a-gv-row-hover-background-color: var(--nm-hover);
+  --a-gv-footer-background-color: var(--nm-bg);
+  --a-gv-footer-border-color: var(--nm-line);
+  --a-gv-grandtotal-background-color: var(--nm-hover);
+  --a-gv-pagination-button-background-color: var(--nm-bg);
+  --a-gv-pagination-button-border-color: transparent;
+  --a-gv-pagination-button-hover-background-color: var(--nm-bg);
+  --a-gv-pagination-button-text-color: var(--nm-text);
+  --a-gv-inserted-background-color: var(--nm-success-tint);
+  --a-gv-updated-background-color: var(--nm-info-tint);
+  --a-gv-deleted-background-color: var(--nm-danger-tint);
+  --a-report-controls-cell-label-background-color: var(--nm-bg);
+  --a-report-controls-cell-label-text-color: var(--nm-text);
+  --a-report-controls-cell-label-border-color: transparent;
+  --a-report-controls-border-color: transparent;
+  --a-report-controls-input-border-color: transparent;
+  --a-cv-background-color: var(--nm-bg);
+  --a-cv-border-color: transparent;
+  --a-cv-border-width: 0px;
+  --a-cv-border-radius: var(--nm-radius);
+  --a-cv-shadow: var(--nm-raised);
+  --a-cv-hover-background-color: var(--nm-bg);
+  --a-cv-hover-border-color: transparent;
+  --a-cv-hover-shadow: var(--nm-raised-lg);
+  --a-cv-active-background-color: var(--nm-bg);
+  --a-cv-active-border-color: transparent;
+  --a-cv-active-shadow: var(--nm-inset);
+  --a-cv-focus-border-color: var(--nm-accent);
+  --a-cv-header-background-color: transparent;
+  --a-cv-header-border-color: transparent;
+  --a-cv-actions-background-color: transparent;
+  --a-cv-actions-border-color: var(--nm-line);
+  --a-cv-icon-background-color: var(--nm-bg);
+  --a-cv-badge-background-color: var(--nm-accent-tint);
+  --a-fs-chart-background-color: var(--nm-bg);
+  --a-fs-chart-border-color: transparent;
+  --a-fs-chart-border-radius: var(--nm-radius);
+  --a-fs-chart-shadow: var(--nm-raised);
+  --a-fs-control-seperator-border-color: var(--nm-line);
+  --a-fs-search-container-border-color: transparent;
+  --a-fs-toggle-background-color: var(--nm-bg);
+  --a-fs-toggle-border-color: transparent;
+  --a-fs-toggle-text-color: var(--nm-text);
+  --a-resultsitem-background-color: var(--nm-bg);
+  --a-resultsitem-border-color: transparent;
+  --a-resultsitem-border-radius: var(--nm-radius);
+  --a-resultsitem-badge-background-color: var(--nm-accent-tint);
+  --a-resultsitem-misc-text-color: var(--nm-text-2);
+  /* date picker */
+  --a-datepicker-background-color: var(--nm-surface-2);
+  --a-datepicker-border-radius: var(--nm-radius);
+  --a-datepicker-header-background-color: var(--nm-surface-2);
+  --a-datepicker-header-border-color: var(--nm-line);
+  --a-datepicker-footer-background-color: var(--nm-surface-2);
+  --a-datepicker-calendar-background-color: var(--nm-surface-2);
+  --a-datepicker-calendar-title-background-color: var(--nm-surface-2);
+  --a-datepicker-calendar-header-background-color: var(--nm-surface-2);
+  --a-datepicker-calendar-header-text-color: var(--nm-text-2);
+  --a-datepicker-calendar-day-hover-background-color: var(--nm-hover);
+  --a-datepicker-calendar-day-selected-background-color: var(--nm-accent);
+  --a-datepicker-calendar-day-selected-border-color: var(--nm-accent);
+  --a-datepicker-calendar-day-selected-text-color: var(--nm-on-accent);
+  --a-datepicker-calendar-day-border-radius: 10px;
+  --a-datepicker-monthpicker-select-background-color: var(--nm-bg);
+  --a-datepicker-monthpicker-select-border-color: transparent;
+  --a-datepicker-timepicker-select-background-color: var(--nm-bg);
+  --a-datepicker-timepicker-select-border-color: transparent;
+  /* splitter, percent chart, icon list */
+  --a-splitter-bar-background-color: var(--nm-line);
+  --a-splitter-thumb-background-color: var(--nm-bg);
+  --a-percent-chart-background-color: var(--nm-bg);
+  --a-percent-chart-bar-background-color: var(--nm-accent);
+  --a-percent-chart-border-color: transparent;
+  --a-iconlist-item-hover-background-color: var(--nm-hover);
+  --a-iconlist-item-selected-background-color: var(--nm-accent-tint);
+  --a-iconlist-item-selected-text-color: var(--nm-accent-text);
+
+  /* FullCalendar (Calendar region) */
+  --fc-page-bg-color: var(--nm-bg);
+  --fc-neutral-bg-color: var(--nm-hover);
+  --fc-neutral-text-color: var(--nm-text-2);
+  --fc-border-color: var(--nm-line);
+  --fc-today-bg-color: var(--nm-accent-tint);
+  --fc-event-bg-color: var(--nm-accent);
+  --fc-event-border-color: var(--nm-accent);
+  --fc-event-text-color: var(--nm-on-accent);
+  --fc-list-event-hover-bg-color: var(--nm-hover);
+  --fc-highlight-color: var(--nm-accent-tint);
+  --fc-now-indicator-color: var(--nm-danger);
+}
+html.nm-dark { --ut-color-scheme: dark; --a-overlay-background-color: rgba(0, 0, 0, .55); --a-switch-toggle-checked-background-color: #f2f4f8; }
+
+/* =====================================================================================================================
+   3. Page shell: header, navigation, title bar, footer
+   ===================================================================================================================== */
+body { background: var(--nm-bg); color: var(--nm-text); }
+.t-Body, .t-Body-main, .t-Body-content, .t-Body-contentInner, .t-Body-title, .t-Body-side, .t-Body-actions, .t-Footer { background: var(--nm-bg); }
+::selection { background: color-mix(in srgb, var(--nm-accent) 28%, transparent); }
+
+.t-Header { background: var(--nm-bg); border-bottom: 0; box-shadow: none; }
+.t-Header::before { display: none; }              /* Iris draws a brand bar */
+.t-Header-controls .t-Button--headerTree {
+  border-radius: var(--nm-radius-sm);
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Header-controls .t-Button--headerTree:active { box-shadow: var(--nm-inset-sm); }
+.t-Header-logo-link, .t-Header-logo-link:hover, .t-Header-logo-link:focus { color: var(--nm-text); }
+
+.t-NavigationBar { gap: 10px; }
+.t-Header .t-NavigationBar .t-Button--navBar {
+  border: 0;
+  border-radius: var(--nm-radius-sm);
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-raised-sm);
+  transition: box-shadow var(--nm-speed), color var(--nm-speed);
+}
+.t-Header .t-NavigationBar .t-Button--navBar:hover { color: var(--nm-accent-text); background: var(--nm-bg); }
+.t-Header .t-NavigationBar .t-Button--navBar:active,
+.t-Header .t-NavigationBar .t-Button--navBar.is-active { box-shadow: var(--nm-inset-sm); }
+
+/* side navigation: entries are flat; the current one is raised */
+.t-Body-nav, .t-TreeNav { background: var(--nm-bg); border-inline-end: 0; }
+.t-TreeNav .a-TreeView-node--topLevel { border: 0 !important; }
+.t-TreeNav .a-TreeView-row {
+  margin-inline: 10px;
+  width: auto;
+  border-radius: var(--nm-radius-sm);
+  transition: background-color var(--nm-speed), box-shadow var(--nm-speed);
+}
+.t-TreeNav .a-TreeView-row::before, .t-TreeNav .a-TreeView-row::after { content: none !important; }
+.t-TreeNav .a-TreeView-row.is-hover { background: var(--nm-hover); }
+/* Iris marks the current entry with an inset bar on a more specific selector */
+.t-TreeNav.t-TreeNav .a-TreeView-node--topLevel > .a-TreeView-row.is-current--top,
+.t-TreeNav.t-TreeNav .a-TreeView-node--topLevel > .a-TreeView-row.is-current,
+.t-TreeNav.t-TreeNav .a-TreeView-node--topLevel > .a-TreeView-row.is-selected {
+  background: var(--nm-bg) !important;
+  box-shadow: var(--nm-raised-sm) !important;
+}
+.t-TreeNav .a-TreeView-content { color: var(--nm-text); }
+.t-TreeNav .a-TreeView-content .fa { color: var(--nm-text-2); }
+.t-TreeNav .a-TreeView-content.is-current--top .fa,
+.t-TreeNav .a-TreeView-content.is-current .fa { color: var(--nm-accent); }
+.t-TreeNav .a-TreeView-node:not(.a-TreeView-node--topLevel) .a-TreeView-content.is-current .a-TreeView-label,
+.t-TreeNav .a-TreeView-node:not(.a-TreeView-node--topLevel) .a-TreeView-label.is-current { color: var(--nm-accent-text); font-weight: 700; }
+.t-TreeNav .a-TreeView-node:not(.a-TreeView-node--topLevel) > .a-TreeView-row.is-current,
+.t-TreeNav .a-TreeView-node:not(.a-TreeView-node--topLevel) > .a-TreeView-row.is-selected { background: transparent; box-shadow: none; }
+
+/* top navigation (menu bar and tabs in the header) */
+.t-Header-nav .a-MenuBar-item { border-radius: var(--nm-radius-sm); }
+.t-Header-nav .a-MenuBar-item.is-current { box-shadow: var(--nm-inset-sm); }
+.t-NavTabs-item.is-active { box-shadow: var(--nm-inset-sm); border-radius: var(--nm-radius-sm); }
+
+.t-Body-title { border-bottom: 0; box-shadow: none; }
+.t-Footer { color: var(--nm-text-2); border-top: 0; }
+
+/* =====================================================================================================================
+   4. Regions
+   ===================================================================================================================== */
+.t-Region:not(.t-Region--noUI):not(.t-Region--noBorder):not(.t-Region--removeHeader.t-Region--noBorder) {
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised);
+}
+.t-Region-header { border-bottom: 0; background: transparent; border-radius: var(--nm-radius) var(--nm-radius) 0 0; }
+.t-Region-title { color: var(--nm-text); font-weight: 700; }
+.t-Region-buttons .t-Button + .t-Button { margin-inline-start: 8px; }
+/* accent colors (Accent 1-15 set the header's color variable) become a thin colored top edge, not a heavy band */
+.t-Region[class*="t-Region--accent"] { border-top: 0; }
+.t-Region[class*="t-Region--accent"] > .t-Region-header {
+  background: transparent;
+  color: var(--nm-text);
+  box-shadow: inset 0 3px 0 var(--ut-region-header-background-color, var(--nm-accent));
+}
+.t-Region[class*="t-Region--accent"] > .t-Region-header .t-Region-title { color: var(--nm-text); }
+/* scroll body and stacked regions */
+.t-Region--scrollBody > .t-Region-bodyWrap > .t-Region-body { border-radius: 0 0 var(--nm-radius) var(--nm-radius); }
+.t-Region--stacked { box-shadow: none !important; }
+
+/* collapsible */
+.t-Region--hideShow .t-Region-header .t-Button--hideShow {
+  border-radius: 50%;
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Region--hideShow .t-Region-header .t-Button--hideShow:active { box-shadow: var(--nm-inset-sm); }
+.t-Region--hideShow.is-collapsed { box-shadow: var(--nm-raised-sm) !important; }
+
+/* content block */
+.t-ContentBlock-header { border-bottom: 0; }
+.t-ContentBlock-title { color: var(--nm-text); }
+.t-ContentBlock--h1 .t-ContentBlock-body, .t-ContentBlock--h2 .t-ContentBlock-body, .t-ContentBlock--h3 .t-ContentBlock-body { color: var(--nm-text-2); }
+.t-ContentBlock--shadowBG .t-ContentBlock-body,
+.t-ContentBlock--lightBG .t-ContentBlock-body {
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-inset);
+}
+
+/* hero */
+.t-HeroRegion { margin-block-end: var(--ut-region-margin, 1rem); border: 0; border-radius: var(--nm-radius-lg); background: var(--nm-bg); box-shadow: var(--nm-raised); }
+/* the icon keeps the shape the template options give it (default, square, circle) */
+.t-HeroRegion-icon {
+  background: var(--nm-accent-fill);
+  color: var(--nm-on-accent);
+  box-shadow: var(--nm-accent-shadow);
+}
+.t-HeroRegion-title { color: var(--nm-text); }
+.t-HeroRegion-description { color: var(--nm-text-2); }
+.t-HeroRegion--featured, .t-HeroRegion--noPadding { box-shadow: var(--nm-raised); }
+
+/* alerts (region template and page messages) */
+.t-Alert {
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-raised);
+}
+.t-Alert .t-Alert-icon .t-Icon { border-radius: 50%; box-shadow: var(--nm-inset-sm); }
+.t-Alert--horizontal .t-Alert-icon { background: transparent; }
+/* Highlight Background: a tint of the type color on the raised surface */
+.t-Alert--colorBG.t-Alert--warning, .t-Alert--colorBG.t-Alert--yellow { background: linear-gradient(var(--nm-warning-tint), var(--nm-warning-tint)), var(--nm-bg); }
+.t-Alert--colorBG.t-Alert--danger, .t-Alert--colorBG.t-Alert--red { background: linear-gradient(var(--nm-danger-tint), var(--nm-danger-tint)), var(--nm-bg); }
+.t-Alert--colorBG.t-Alert--success { background: linear-gradient(var(--nm-success-tint), var(--nm-success-tint)), var(--nm-bg); }
+.t-Alert--colorBG.t-Alert--info { background: linear-gradient(var(--nm-info-tint), var(--nm-info-tint)), var(--nm-bg); }
+.t-Alert--warning .t-Alert-icon .t-Icon, .t-Alert--yellow .t-Alert-icon .t-Icon { color: var(--nm-warning); background: var(--nm-warning-tint); }
+.t-Alert--danger .t-Alert-icon .t-Icon, .t-Alert--red .t-Alert-icon .t-Icon { color: var(--nm-danger); background: var(--nm-danger-tint); }
+.t-Alert--success .t-Alert-icon .t-Icon { color: var(--nm-success); background: var(--nm-success-tint); }
+.t-Alert--info .t-Alert-icon .t-Icon { color: var(--nm-info); background: var(--nm-info-tint); }
+.t-Alert--warning { box-shadow: var(--nm-raised), inset 4px 0 0 var(--nm-warning); }
+.t-Alert--danger { box-shadow: var(--nm-raised), inset 4px 0 0 var(--nm-danger); }
+.t-Alert--success { box-shadow: var(--nm-raised), inset 4px 0 0 var(--nm-success); }
+.t-Alert--info { box-shadow: var(--nm-raised), inset 4px 0 0 var(--nm-info); }
+.t-Alert-title { color: var(--nm-text); }
+.t-Alert-body { color: var(--nm-text-2); }
+.t-Alert--page { border-radius: var(--nm-radius); background: var(--nm-surface-2); box-shadow: var(--nm-float); }
+.t-Alert--page.t-Alert--success { box-shadow: var(--nm-float), inset 4px 0 0 var(--nm-success); }
+.t-Alert--page.t-Alert--warning { box-shadow: var(--nm-float), inset 4px 0 0 var(--nm-danger); }
+.t-Alert--removeHeading .t-Alert-title { display: none; }
+
+/* title bar, breadcrumb */
+.t-BreadcrumbRegion { background: transparent; border: 0; box-shadow: none; }
+.t-BreadcrumbRegion-title, .t-BreadcrumbRegion-titleText { color: var(--nm-text); }
+.t-Breadcrumb-label, .t-Breadcrumb-item a { color: var(--nm-text-2); }
+.t-Breadcrumb-item a:hover { color: var(--nm-accent-text); }
+.t-Breadcrumb-item.is-active .t-Breadcrumb-label { color: var(--nm-text); }
+.t-BreadcrumbRegion--useBreadcrumbTitle .t-Breadcrumb { padding: 6px 12px; border-radius: var(--nm-radius-pill); box-shadow: var(--nm-inset-sm); display: inline-flex; }
+
+/* image */
+.t-ImageRegion img, .t-ImageRegion-image { border-radius: var(--nm-radius); box-shadow: var(--nm-raised); }
+
+/* buttons container */
+.t-ButtonRegion { border: 0; border-radius: var(--nm-radius); background: var(--nm-bg); box-shadow: var(--nm-raised); }
+.t-ButtonRegion--noUI, .t-ButtonRegion--noBorder { box-shadow: none; background: transparent; }
+.t-ButtonRegion--slimPadding { box-shadow: var(--nm-raised-sm); }
+
+/* item container */
+.t-ItemContainer { border-radius: var(--nm-radius); }
+
+/* tabs container and tabs list: the tab bar sinks in, the active tab is raised */
+.t-TabsRegion { border: 0; background: transparent; }
+.t-Tabs {
+  gap: 6px;
+  padding: 6px;
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-inset);
+}
+.t-Tabs-item { border: 0; }
+.t-Tabs-link { border: 0; border-radius: var(--nm-radius-sm); color: var(--nm-text-2); transition: box-shadow var(--nm-speed), color var(--nm-speed); }
+.t-Tabs-link::before, .t-Tabs-link::after { display: none !important; }
+.t-Tabs-link:hover { color: var(--nm-text); background: transparent; }
+.t-Tabs-item.is-active .t-Tabs-link { background: var(--nm-bg); color: var(--nm-accent-text); box-shadow: var(--nm-raised-sm); font-weight: 700; }
+.t-TabsRegion .a-Tabs-panel, .t-TabsRegion-items > div { border: 0; }
+
+/* carousel: round raised previous/next buttons and pressed-in dots */
+.a-Region-carouselControl .a-Tabs-button {
+  width: 40px;
+  height: 40px;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: var(--nm-bg) !important;
+  color: var(--nm-text) !important;
+  box-shadow: var(--nm-raised-sm) !important;
+  opacity: 1;
+}
+.a-Region-carouselControl .a-Tabs-button:hover { color: var(--nm-accent-text) !important; }
+.a-Region-carouselControl .a-Tabs-button:active { box-shadow: var(--nm-inset-sm) !important; }
+.a-Region-carouselLink { border-radius: 50%; background: var(--nm-bg); box-shadow: var(--nm-inset-sm); }
+.a-Region-carouselNavItem.a-Tabs-selected .a-Region-carouselLink { background: var(--nm-accent); box-shadow: var(--nm-raised-sm); }
+.t-Region--carousel .t-Region-carouselRegions .t-Region { box-shadow: none; background: transparent; }
+
+/* region display selector: the same pressed-in tab bar as Tabs, the selected entry raised */
+.a-RDS-list.a-Tabs, .apex-rds {
+  display: inline-flex;
+  gap: 6px;
+  padding: 6px;
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-inset);
+}
+.a-RDS-item { border: 0; }
+.a-RDS-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--nm-radius-sm);
+  color: var(--nm-text-2);
+}
+.a-RDS-link::before, .a-RDS-link::after, .apex-rds-item a::after { display: none !important; }
+.a-RDS-item.apex-rds-selected .a-RDS-link { background: var(--nm-bg); color: var(--nm-accent-text); box-shadow: var(--nm-raised-sm); font-weight: 700; }
+
+/* wizard */
+.t-Wizard { border: 0; border-radius: var(--nm-radius-lg); background: var(--nm-bg); box-shadow: var(--nm-raised); }
+.t-Wizard-header { border-bottom: 1px solid var(--nm-line); background: transparent; }
+.t-WizardSteps-marker {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-inset-sm);
+}
+.t-WizardSteps-step.is-complete .t-WizardSteps-marker,
+.t-WizardSteps-step.is-active .t-WizardSteps-marker { background: var(--nm-accent); color: var(--nm-on-accent); box-shadow: var(--nm-raised-sm); }
+.t-WizardSteps-step.is-active .t-WizardSteps-label { color: var(--nm-text); font-weight: 700; }
+
+/* inline dialog, popup, drawer and jQuery UI dialogs */
+.ui-dialog, .t-DialogRegion, .t-Drawer {
+  border: 0;
+  border-radius: var(--nm-radius-lg);
+  background: var(--nm-surface-2);
+  color: var(--nm-text);
+  box-shadow: var(--nm-float);
+}
+.ui-dialog .ui-dialog-titlebar { border-bottom: 1px solid var(--nm-line); background: transparent; color: var(--nm-text); border-radius: var(--nm-radius-lg) var(--nm-radius-lg) 0 0; }
+.ui-dialog .ui-dialog-title { color: var(--nm-text); font-weight: 700; }
+.ui-dialog .ui-dialog-content, .t-DialogRegion-body, .t-Dialog-body { background: transparent; color: var(--nm-text); }
+.ui-dialog .ui-dialog-buttonpane, .t-DialogRegion-buttons, .t-Dialog-footer { border-top: 1px solid var(--nm-line); background: transparent; }
+.ui-dialog .ui-dialog-titlebar-close {
+  border: 0;
+  border-radius: 50%;
+  background: var(--nm-surface-2);
+  box-shadow: var(--nm-raised-sm);
+}
+.ui-dialog .ui-dialog-titlebar-close:active { box-shadow: var(--nm-inset-sm); }
+/* inside a dialog, the region and its buttons container are part of the dialog surface: no second panel or band */
+.t-DialogRegion-buttons, .t-DrawerRegion-buttons, .t-DrawerRegion-wrap, .t-DrawerRegion-body { background: transparent; }
+.ui-dialog .t-DialogRegion, .ui-dialog .t-Drawer,
+.ui-dialog .t-ButtonRegion, .t-DialogRegion .t-ButtonRegion, .t-Dialog-footer .t-ButtonRegion, .t-Drawer .t-ButtonRegion {
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.ui-widget-overlay { background: var(--a-overlay-background-color); opacity: 1; }
+.ui-dialog--inlinePopup .ui-dialog-content { border-radius: var(--nm-radius-lg); }
+.ui-dialog--notification { border-radius: var(--nm-radius-lg); }
+.t-Dialog-page, .t-Dialog { background: var(--nm-bg); }
+
+/* tooltips */
+.ui-tooltip, .a-Tooltip {
+  border: 0;
+  border-radius: 10px;
+  background: var(--nm-text);
+  color: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+}
+
+/* login */
+.t-Login-region { border: 0; border-radius: var(--nm-radius-lg); background: var(--nm-bg); box-shadow: var(--nm-raised-lg); }
+.t-PageBody--login .t-Login-bg { display: none; }
+
+/* =====================================================================================================================
+   5. Buttons
+   ===================================================================================================================== */
+.t-Button:not(.t-Button--noUI):not(.t-Button--link):not(.t-Button--header):not(.t-Button--navBar):not(.t-Button--headerTree) {
+  border: 0;
+  border-radius: var(--nm-radius-sm);
+  box-shadow: var(--nm-raised-sm);
+  transition: box-shadow var(--nm-speed), color var(--nm-speed), transform var(--nm-speed);
+}
+.t-Button:not(.t-Button--noUI):not(.t-Button--link):not(.t-Button--header):not(.t-Button--navBar):not(.t-Button--headerTree):hover {
+  box-shadow: var(--nm-raised);
+}
+.t-Button:not(.t-Button--noUI):not(.t-Button--link):not(.t-Button--header):not(.t-Button--navBar):not(.t-Button--headerTree):active,
+.t-Button.is-active:not(.t-Button--noUI) {
+  box-shadow: var(--nm-inset-sm);
+  transform: translateY(1px);
+}
+.t-Button:focus-visible { outline: 0; box-shadow: var(--nm-raised-sm), var(--nm-focus) !important; }
+.t-Button[disabled], .t-Button.is-disabled { opacity: .5; box-shadow: none !important; }
+
+/* hot: the accent gradient */
+.t-Button--hot:not(.t-Button--simple):not(.t-Button--noUI):not(.t-Button--link) {
+  background: var(--nm-accent-fill);
+  color: var(--nm-on-accent);
+  box-shadow: var(--nm-accent-shadow) !important;
+}
+.t-Button--hot:not(.t-Button--simple):not(.t-Button--noUI):not(.t-Button--link):hover { filter: brightness(1.06); color: var(--nm-on-accent); }
+.t-Button--hot:not(.t-Button--simple):not(.t-Button--noUI):not(.t-Button--link):active { box-shadow: inset 2px 2px 6px rgba(0, 0, 0, .25) !important; }
+
+/* colored buttons: color as text on the raised surface; with Hot they fill */
+.t-Button--primary:not(.t-Button--hot) { color: var(--nm-accent-text); }
+.t-Button--success:not(.t-Button--hot) { color: var(--nm-success); }
+.t-Button--warning:not(.t-Button--hot) { color: var(--nm-warning); }
+.t-Button--danger:not(.t-Button--hot) { color: var(--nm-danger); }
+.t-Button--hot.t-Button--success:not(.t-Button--simple) { background: var(--nm-success); }
+.t-Button--hot.t-Button--warning:not(.t-Button--simple) { background: var(--nm-warning); }
+.t-Button--hot.t-Button--danger:not(.t-Button--simple) { background: var(--nm-danger); }
+.t-Button--primary:not(.t-Button--simple):not(.t-Button--hot),
+.t-Button--success:not(.t-Button--simple):not(.t-Button--hot),
+.t-Button--warning:not(.t-Button--simple):not(.t-Button--hot),
+.t-Button--danger:not(.t-Button--simple):not(.t-Button--hot) { background: var(--nm-bg); }
+
+/* simple: flat until pressed */
+.t-Button--simple:not(.t-Button--noUI) { background: transparent; box-shadow: none !important; }
+.t-Button--simple:not(.t-Button--noUI):hover { background: var(--nm-hover); }
+.t-Button--simple:not(.t-Button--noUI):active { box-shadow: var(--nm-inset-sm) !important; }
+
+/* button groups (template options First / Inner / Last Button): one raised bar with square inner corners */
+.t-Button--pillStart { border-start-end-radius: 0 !important; border-end-end-radius: 0 !important; }
+.t-Button--pill { border-radius: 0 !important; }
+.t-Button--pillEnd { border-start-start-radius: 0 !important; border-end-start-radius: 0 !important; }
+.t-Button--pillStart, .t-Button--pill, .t-Button--pillEnd { margin-inline: 0 !important; }
+.t-Button--pillStart + .t-Button--pill, .t-Button--pillStart + .t-Button--pillEnd, .t-Button--pill + .t-Button--pill, .t-Button--pill + .t-Button--pillEnd {
+  margin-inline-start: 1px !important;
+}
+/* no UI decoration: only the label */
+.t-Button--noUI { background: transparent !important; box-shadow: none !important; }
+.t-Button--noLabel.t-Button--icon:not(.t-Button--noUI):not(.t-Button--link) { border-radius: var(--nm-radius-sm); }
+.t-Button--small, .t-Button--tiny { border-radius: 10px; }
+.t-Button--large { border-radius: var(--nm-radius); }
+.t-Button--link { color: var(--nm-accent-text); }
+.t-Button--noUI:hover { background: var(--nm-hover); }
+
+/* =====================================================================================================================
+   6. Forms
+   ===================================================================================================================== */
+.t-Form-itemWrapper > :is(input.apex-item-text, input.text_field, input.password, input.number_field, input.datepicker, input.popup_lov,
+  input.apex-item-popup-lov, select.apex-item-select, select.selectlist, textarea.apex-item-textarea, textarea.textarea),
+.apex-item-text:not(.t-Form-itemWrapper *),
+.a-Combobox, .apex-item-group--combobox .a-Combobox,
+.apex-item-select-many, .shuttle_left, .shuttle_right, select.shuttle_left, select.shuttle_right,
+.a-ColorPicker-input, .apex-item-color-picker {
+  border-color: transparent;
+  border-radius: var(--nm-radius-sm);
+  background-color: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-inset);
+}
+.t-Form-itemWrapper > :is(input, select, textarea):focus,
+.apex-item-text:focus, .a-Combobox.is-focused, .a-Combobox:focus-within {
+  border-color: transparent;
+  background-color: var(--nm-bg);
+  box-shadow: var(--nm-inset), var(--nm-focus);
+  outline: 0;
+}
+.t-Form-itemWrapper > :is(input, select, textarea)::placeholder { color: var(--nm-text-3); }
+/* every pressed-in field gets the well color (stronger than the surface, most of all in dark mode) */
+.t-Form-itemWrapper > :is(input.apex-item-text, input.text_field, input.password, input.number_field, input.datepicker, input.popup_lov,
+  input.apex-item-popup-lov, select.apex-item-select, select.selectlist, textarea.apex-item-textarea, textarea.textarea),
+.t-Form-itemWrapper > :is(input, select, textarea):focus,
+.apex-item-comboselect, .a-Combobox, .apex-item-select-many, .shuttle_left, .shuttle_right,
+.a-IRR-search-field, .a-Toolbar-input, .a-FS-search input, .a-SmartFilter-input,
+.ui-input-search, .ui-filterable input, input[data-type="search"],
+.ck.ck-editor__editable.ck-editor__editable_inline, .ck.ck-editor__main > .ck-editor__editable {
+  background-color: var(--nm-well) !important;
+}
+/* number fields: no browser spinner inside the soft well (the arrow keys still change the value) */
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.t-Form-itemWrapper > :is(input, select, textarea)[readonly],
+.t-Form-itemWrapper > :is(input, select, textarea)[disabled] { box-shadow: var(--nm-inset-sm); opacity: .75; }
+/* the item icon, pre and post text, and buttons inside the field (date picker, popup LOV, reveal password) */
+.t-Form-itemWrapper > .apex-item-icon { color: var(--nm-text-3); }
+.t-Form-itemText { color: var(--nm-text-2); }
+.t-Form-itemWrapper > .a-Button, .t-Form-itemWrapper > button.a-Button--calendar, .t-Form-itemWrapper > .a-Button--popupLOV {
+  border: 0;
+  border-radius: var(--nm-radius-sm);
+  background: var(--nm-bg);
+  color: var(--nm-text-2);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Form-itemWrapper > .a-Button:active { box-shadow: var(--nm-inset-sm); }
+/* labels, help, errors */
+.t-Form-label { color: var(--nm-text); font-weight: 600; }
+.t-Form-helpText, .t-Form-inlineHelp { color: var(--nm-text-2); }
+.t-Form-error, .a-Form-error { color: var(--nm-danger); }
+.apex-page-item-error, .t-Form-itemWrapper > .apex-page-item-error { box-shadow: var(--nm-inset), 0 0 0 2px var(--nm-danger) !important; }
+.t-Form-helpButton .a-Icon, .t-Form-helpButton { color: var(--nm-text-3); }
+/* floating labels: the label sits inside the pressed-in field */
+.t-Form-fieldContainer--floatingLabel .t-Form-inputContainer { background: transparent; }
+.t-Form-fieldContainer--floatingLabel .t-Form-label { color: var(--nm-text-2); }
+.t-Form-fieldContainer--floatingLabel.is-active .t-Form-label { color: var(--nm-accent-text); }
+/* checkboxes and radios: small pressed-in wells */
+.apex-item-option input + label::before,
+.u-checkbox::before, .u-radio::before {
+  border: 0 !important;
+  background-color: var(--nm-bg) !important;
+  box-shadow: var(--nm-inset-sm) !important;
+}
+.apex-item-option input:checked + label::before { background-color: var(--nm-accent) !important; box-shadow: var(--nm-raised-sm) !important; }
+.apex-item-option input:focus-visible + label::before { box-shadow: var(--nm-inset-sm), var(--nm-focus) !important; }
+.apex-item-radio input + label::before { border-radius: 50% !important; }
+/* pill button style for radio and checkbox groups */
+.apex-item-group--rc.t-Form-fieldContainer--radioButtonGroup .apex-item-option label,
+.t-Form-fieldContainer--radioButtonGroup .apex-item-radio label {
+  border: 0;
+  border-radius: var(--nm-radius-sm);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Form-fieldContainer--radioButtonGroup .apex-item-radio input:checked + label { color: var(--nm-accent-text); box-shadow: var(--nm-inset-sm); }
+/* switch: the track sinks in, the knob is raised */
+.a-Switch .a-Switch-toggle { border: 0; background-color: var(--nm-bg); box-shadow: var(--nm-inset-sm); }
+.a-Switch .a-Switch-toggle::before { background-color: var(--nm-surface-2); box-shadow: var(--nm-raised-sm); }
+.a-Switch input:checked + .a-Switch-toggle { background: var(--nm-accent-fill); box-shadow: inset 1px 1px 4px rgba(0, 0, 0, .2); }
+.a-Switch input:checked + .a-Switch-toggle::before { background-color: #fff; }
+.a-Switch input:focus-visible + .a-Switch-toggle { box-shadow: var(--nm-inset-sm), var(--nm-focus); }
+/* select lists: browsers with customizable selects (Chrome and Edge 135+) draw the open list in the kit's style too;
+   others keep their native list */
+@supports (appearance: base-select) {
+  .t-Form-itemWrapper > select.apex-item-select:not([multiple]):not([size]),
+  .t-Form-itemWrapper > select.apex-item-select[size="1"],
+  .t-Form-itemWrapper > select.selectlist[size="1"] {
+    appearance: base-select;
+  }
+  .t-Form-itemWrapper > select:is(.apex-item-select, .selectlist)::picker-icon { display: none; }   /* UT draws its own arrow */
+  .t-Form-itemWrapper > select:is(.apex-item-select, .selectlist)::picker(select) {
+    appearance: base-select;
+    margin-block: 6px;
+    padding: 6px;
+    border: 0;
+    border-radius: var(--nm-radius-sm);
+    background: var(--nm-surface-2);
+    color: var(--nm-text);
+    box-shadow: var(--nm-float);
+  }
+  .t-Form-itemWrapper > select:is(.apex-item-select, .selectlist) option {
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: var(--nm-text);
+  }
+  .t-Form-itemWrapper > select:is(.apex-item-select, .selectlist) option::checkmark { display: none; }
+  .t-Form-itemWrapper > select:is(.apex-item-select, .selectlist) option:is(:hover, :focus-visible) { background: var(--nm-hover); outline: 0; }
+  .t-Form-itemWrapper > select:is(.apex-item-select, .selectlist) option:checked { background: var(--nm-accent-tint); color: var(--nm-accent-text); font-weight: 600; }
+}
+/* the closed select's text is never covered by the arrow */
+.t-Form-itemWrapper > select.apex-item-select { text-overflow: ellipsis; }
+
+/* select one / select many (a-select): the whole field sinks in; chosen values are raised chips */
+.apex-item-comboselect {
+  border-color: transparent !important;
+  border-radius: var(--nm-radius-sm) !important;
+  background-color: var(--nm-bg) !important;
+  box-shadow: var(--nm-inset) !important;
+}
+.apex-item-comboselect:focus-within { box-shadow: var(--nm-inset), var(--nm-focus) !important; }
+.apex-item-comboselect .apex-item-text,
+.apex-item-comboselect .apex-item-text:focus { background: transparent !important; box-shadow: none !important; }
+.a-Chip, .apex-item-chip {
+  border: 0;
+  border-radius: var(--nm-radius-pill);
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-raised-sm);
+}
+.a-Chip.a-Chip--input { background: transparent; box-shadow: none; }
+
+/* rich text editor (CKEditor 5): its own color variables */
+html:root {
+  --ck-color-base-background: var(--nm-bg);
+  --ck-color-base-foreground: var(--nm-surface-2);
+  --ck-color-base-border: transparent;
+  --ck-color-base-text: var(--nm-text);
+  --ck-color-text: var(--nm-text);
+  --ck-color-toolbar-background: transparent;
+  --ck-color-toolbar-border: transparent;
+  --ck-color-focus-border: var(--nm-accent);
+  --ck-color-button-default-hover-background: var(--nm-hover);
+  --ck-color-button-default-active-background: var(--nm-hover);
+  --ck-color-button-on-background: var(--nm-accent-tint);
+  --ck-color-button-on-hover-background: var(--nm-accent-tint);
+  --ck-color-button-on-color: var(--nm-accent-text);
+  --ck-color-dropdown-panel-background: var(--nm-surface-2);
+  --ck-color-dropdown-panel-border: transparent;
+  --ck-color-panel-background: var(--nm-surface-2);
+  --ck-color-panel-border: transparent;
+  --ck-color-list-background: var(--nm-surface-2);
+  --ck-color-list-button-hover-background: var(--nm-hover);
+  --ck-color-list-button-on-background: var(--nm-accent-tint);
+  --ck-color-list-button-on-text: var(--nm-accent-text);
+  --ck-color-input-background: var(--nm-bg);
+  --ck-color-input-border: transparent;
+  --ck-color-input-text: var(--nm-text);
+  --ck-color-labeled-field-label-background: var(--nm-surface-2);
+  --ck-border-radius: var(--nm-radius-sm);
+  --ck-focus-ring: 1px solid var(--nm-accent);
+}
+.ck.ck-editor__editable.ck-editor__editable_inline,
+.ck.ck-editor__main > .ck-editor__editable {
+  border: 0 !important;
+  border-radius: var(--nm-radius-sm) !important;
+  background: var(--nm-bg) !important;
+  box-shadow: var(--nm-inset) !important;
+}
+.ck.ck-editor__editable.ck-focused { box-shadow: var(--nm-inset), var(--nm-focus) !important; }
+.ck.ck-toolbar { border: 0 !important; background: transparent !important; }
+
+/* legacy markup with a bgcolor attribute (Help Text region, old reports) */
+.t-Region-body [bgcolor] { background: var(--nm-hover) !important; color: var(--nm-text); }
+/* file upload drop zone */
+.a-FileDrop, .apex-item-filedrop { border-radius: var(--nm-radius); background: var(--nm-bg); box-shadow: var(--nm-inset); }
+/* star rating */
+.a-StarRating .fa, .a-StarRating-star { text-shadow: none; }
+/* shuttle buttons */
+.shuttle_controls .a-Button, .apex-item-shuttle .a-Button {
+  border: 0;
+  border-radius: 10px;
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+}
+.shuttle_controls .a-Button:active { box-shadow: var(--nm-inset-sm); }
+/* display only */
+.t-Form-itemWrapper > .display_only { color: var(--nm-text); }
+
+/* APEX widget buttons (popup LOV dialog, IG and IR toolbars, date picker) */
+.a-Button:not(.a-Button--noUI):not(.a-Button--link):not(.t-Button) {
+  border: 0;
+  border-radius: 10px;
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-raised-sm);
+}
+.a-Button:not(.a-Button--noUI):not(.a-Button--link):not(.t-Button):hover { color: var(--nm-accent-text); }
+.a-Button:not(.a-Button--noUI):not(.a-Button--link):not(.t-Button):active,
+.a-Button.is-active:not(.a-Button--noUI) { box-shadow: var(--nm-inset-sm); }
+.a-Button--hot:not(.t-Button) { background: var(--nm-accent-fill) !important; color: var(--nm-on-accent) !important; box-shadow: var(--nm-accent-shadow) !important; }
+
+/* date picker popup */
+.a-DatePicker, .a-DatePicker--popup, .a-DatePicker-calendar { border: 0; border-radius: var(--nm-radius); }
+.a-DatePicker--popup, .a-DatePicker.is-popup { box-shadow: var(--nm-float); }
+.a-DatePicker-calendar td a, .a-DatePicker-calendar .a-DatePicker-day { border-radius: 10px; }
+
+/* =====================================================================================================================
+   7. Lists: links list, media list, badge list, cards, menus, menu bar
+   ===================================================================================================================== */
+/* links list */
+.t-LinksList-item { border: 0; }
+.t-LinksList-link {
+  margin: 4px 0;
+  border: 0;
+  border-radius: var(--nm-radius-sm);
+  color: var(--nm-text);
+  transition: box-shadow var(--nm-speed), background-color var(--nm-speed);
+}
+.t-LinksList-link:hover { background: transparent; box-shadow: var(--nm-raised-sm); }
+.t-LinksList-link:active { box-shadow: var(--nm-inset-sm); }
+.t-LinksList-item.is-current > .t-LinksList-link,
+.t-LinksList-item.is-expanded > .t-LinksList-link { color: var(--nm-accent-text); box-shadow: var(--nm-inset-sm); font-weight: 700; }
+.t-LinksList-icon { color: var(--nm-text-2); }
+.t-LinksList-badge { border-radius: var(--nm-radius-pill); background: var(--nm-bg); color: var(--nm-text); box-shadow: var(--nm-inset-sm); }
+
+/* media list */
+.t-MediaList { border: 0; background: transparent; }
+.t-MediaList-item { border: 0; }
+.t-MediaList-itemWrap {
+  border-radius: var(--nm-radius-sm);
+  transition: box-shadow var(--nm-speed);
+}
+a.t-MediaList-itemWrap:hover { background: transparent; box-shadow: var(--nm-raised-sm); }
+a.t-MediaList-itemWrap:active { box-shadow: var(--nm-inset-sm); }
+.t-MediaList-iconWrap .t-MediaList-icon, .t-MediaList-icon {
+  border-radius: var(--nm-radius-sm);
+  background: var(--nm-bg);
+  color: var(--nm-accent-text);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-MediaList-title { color: var(--nm-text); }
+.t-MediaList-desc { color: var(--nm-text-2); }
+.t-MediaList-badge { border-radius: var(--nm-radius-pill); background: var(--nm-bg); color: var(--nm-text); box-shadow: var(--nm-inset-sm); }
+.t-MediaList--cols .t-MediaList-item { border: 0; }
+
+/* badge list: plain lists show each value in a raised tile; colored lists (u-colors) keep their colors and get depth */
+.t-BadgeList { border: 0; background: transparent; }
+.t-BadgeList-item { border: 0 !important; background: transparent; }
+.t-BadgeList-wrap { border-radius: var(--nm-radius); }
+.t-BadgeList-value { border-color: transparent !important; }
+.t-BadgeList:not(.u-colors) .t-BadgeList-value {
+  min-width: 3.25em;
+  padding: .35em .6em;
+  border-radius: var(--nm-radius-sm);
+  background: var(--nm-bg) !important;
+  color: var(--nm-text) !important;
+  box-shadow: var(--nm-raised-sm) !important;
+  text-align: center;
+}
+.t-BadgeList--circular:not(.u-colors) .t-BadgeList-value { border-radius: 50%; padding: 0; box-shadow: var(--nm-raised) !important; }
+.t-BadgeList:not(.u-colors) .t-BadgeList-label { color: var(--nm-text-2); }
+.t-BadgeList.u-colors .t-BadgeList-wrap { box-shadow: var(--nm-raised-sm); }
+.t-BadgeList:not(.u-colors) a.t-BadgeList-wrap:hover .t-BadgeList-value { box-shadow: var(--nm-inset-sm) !important; }
+
+/* cards (list and report templates) */
+.t-Cards .t-Card-wrap,
+.t-Card .t-Card-wrap {
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised);
+  transition: box-shadow var(--nm-speed), transform var(--nm-speed);
+}
+.t-Cards a.t-Card-wrap:hover, .t-Card a.t-Card-wrap:hover { box-shadow: var(--nm-raised-lg); transform: translateY(-2px); }
+.t-Cards a.t-Card-wrap:active, .t-Card a.t-Card-wrap:active { box-shadow: var(--nm-inset); transform: none; }
+.t-Card-icon, .t-Card .t-Icon {
+  border: 0;
+  border-radius: var(--nm-radius-sm);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Card-title { color: var(--nm-text); }
+.t-Card-desc, .t-Card-subtitle { color: var(--nm-text-2); }
+.t-Card-info { color: var(--nm-text-3); }
+.t-Cards--featured .t-Card-wrap, .t-Cards--block .t-Card-wrap { box-shadow: var(--nm-raised); }
+.t-Cards--basic .t-Card-wrap { box-shadow: var(--nm-raised-sm); }
+
+/* menus (menu popup, IR/IG actions, navigation bar sub menus) */
+.a-Menu .a-Menu-content, .a-Menu-content {
+  border: 0;
+  border-radius: var(--nm-radius-sm);
+  background: var(--nm-surface-2);
+  box-shadow: var(--nm-float);
+}
+.a-Menu .a-Menu-item.is-focused, .a-Menu .a-Menu-item.is-focused > .a-Menu-inner { border-radius: 8px; }
+.a-Menu .a-Menu-hSeparator { border-color: var(--nm-line); }
+
+/* menu bar */
+.t-MenuBar .a-MenuBar, .a-MenuBar {
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+}
+.a-MenuBar-item { border: 0; border-radius: var(--nm-radius-sm); }
+.a-MenuBar-item.is-focused, .a-MenuBar-item:hover { background: var(--nm-hover); }
+.a-MenuBar-item.is-current, .a-MenuBar-item.is-expanded { box-shadow: var(--nm-inset-sm); background: var(--nm-bg); }
+.a-MenuBar-label, .a-MenuBar-item .a-MenuBar-label { color: var(--nm-text); }
+.a-MenuBar-item.is-current .a-MenuBar-label { color: var(--nm-accent-text); }
+
+/* navigation bar list in the page body */
+.t-NavigationBar-item .t-Button--navBar { border-radius: var(--nm-radius-sm); }
+
+/* wizard progress list */
+.t-WizardSteps { padding-block: 8px; }
+
+/* list view (jQuery Mobile list) */
+.ui-input-search, .ui-filterable input, .ui-listview-filter input, input[data-type="search"] {
+  border: 0 !important;
+  border-radius: var(--nm-radius-sm) !important;
+  background: var(--nm-bg) !important;
+  color: var(--nm-text) !important;
+  box-shadow: var(--nm-inset) !important;
+}
+.ui-listview-inset { border: 0 !important; border-radius: var(--nm-radius) !important; background: var(--nm-bg); box-shadow: var(--nm-raised-sm) !important; overflow: hidden; }
+.ui-listview > li, .ui-listview .ui-li-static, .ui-listview .ui-li-divider { border-color: var(--nm-line) !important; background: transparent !important; color: var(--nm-text); }
+.ui-listview .ui-li-divider { background: var(--nm-hover) !important; }
+.ui-li-count { border: 0 !important; border-radius: var(--nm-radius-pill) !important; background: var(--nm-bg) !important; color: var(--nm-text-2) !important; box-shadow: var(--nm-inset-sm); }
+
+/* tree region */
+.a-TreeView:not(.t-TreeNav) .a-TreeView-row { border-radius: 10px; }
+.a-TreeView:not(.t-TreeNav) .a-TreeView-row.is-selected { background: var(--nm-bg); box-shadow: var(--nm-raised-sm); }
+.a-TreeView:not(.t-TreeNav) .a-TreeView-label { color: var(--nm-text); }
+.a-TreeView-toggle { color: var(--nm-text-3); }
+
+/* =====================================================================================================================
+   8. Reports and template components
+   ===================================================================================================================== */
+/* classic report */
+.t-Report-wrap { border-radius: var(--nm-radius); }
+.t-Report-report { border-collapse: separate; border-spacing: 0; }
+.t-Report-colHead { border-color: var(--nm-line); background: transparent; color: var(--nm-text-2); font-weight: 700; }
+.t-Report-cell { border-color: var(--nm-line); color: var(--nm-text); }
+.t-Report--altRowsDefault .t-Report-report tr:nth-child(odd) .t-Report-cell { background: var(--nm-hover); }
+.t-Report--rowHighlight .t-Report-report tr:hover .t-Report-cell { background: var(--nm-accent-tint) !important; }
+.t-Report-pagination .t-Report-paginationLink, .t-Report-paginationLink {
+  border-radius: 10px;
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Report-paginationLink:active { box-shadow: var(--nm-inset-sm); }
+.t-Report-paginationText b, .t-Report-paginationText strong { padding: 4px 10px; border-radius: 10px; background: var(--nm-accent); color: var(--nm-on-accent); box-shadow: var(--nm-accent-shadow); }
+.t-Report--inline .t-Report-report { box-shadow: var(--nm-inset-sm); border-radius: var(--nm-radius-sm); }
+
+/* value attribute pairs and contextual info */
+.t-AVPList-label { color: var(--nm-text-2); }
+.t-AVPList-value { color: var(--nm-text); }
+.t-AVPList--rightAligned .t-AVPList-label, .t-AVPList-item { border-color: var(--nm-line); }
+.t-ContextualInfo { border: 0; }
+.t-ContextualInfo-item {
+  border: 0;
+  border-radius: var(--nm-radius-sm);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-ContextualInfo-label { color: var(--nm-text-2); }
+.t-ContextualInfo-value { color: var(--nm-text); }
+
+/* search results */
+.t-SearchResults-item, .a-ResultsItem {
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-SearchResults-title a, .a-ResultsItem-title a { color: var(--nm-accent-text); }
+.t-SearchResults-desc { color: var(--nm-text-2); }
+.t-SearchResults-misc, .t-SearchResults-info { color: var(--nm-text-3); }
+
+/* comments */
+.t-Comments-item { border: 0; }
+.t-Comments-body {
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Comments-body::before, .t-Comments-body::after { display: none; }
+.t-Comments-user { color: var(--nm-text); }
+.t-Comments-date, .t-Comments-info { color: var(--nm-text-3); }
+.t-Comments--chat .t-Comments-item.is-active .t-Comments-body,
+.t-Comments--chat .t-Comments-item--right .t-Comments-body { background: var(--nm-accent-tint); }
+
+/* content row */
+.t-ContentRow-item, .t-ContentRow-wrap { border-color: var(--nm-line); }
+.t-ContentRow-wrap { border-radius: var(--nm-radius-sm); transition: box-shadow var(--nm-speed); }
+.t-ContentRow-item:hover .t-ContentRow-wrap { background: transparent; box-shadow: var(--nm-raised-sm); }
+.t-ContentRow-item.is-selected .t-ContentRow-wrap { box-shadow: var(--nm-inset-sm); }
+.t-ContentRow-title { color: var(--nm-text); }
+.t-ContentRow-description, .t-ContentRow-misc { color: var(--nm-text-2); }
+.t-ContentRow-iconWrap .t-Icon, .t-ContentRow-icon { box-shadow: var(--nm-raised-sm); }
+
+/* timeline */
+.t-Timeline-wrap { border: 0; }
+.t-Timeline-content {
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Timeline-content::before, .t-Timeline-content::after { display: none; }
+.t-Timeline-type {
+  border: 0;
+  background: var(--nm-bg);
+  color: var(--nm-accent-text);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Timeline-type.is-new, .t-Timeline-type--new { color: var(--nm-success); }
+.t-Timeline-type.is-removed, .t-Timeline-type--removed { color: var(--nm-danger); }
+.t-Timeline-type.is-updated, .t-Timeline-type--updated { color: var(--nm-warning); }
+.t-Timeline-item::before, .t-Timeline-wrap::before { background: var(--nm-line); }
+.t-Timeline-title, .t-Timeline-username { color: var(--nm-text); }
+.t-Timeline-desc, .t-Timeline-date { color: var(--nm-text-2); }
+
+/* avatar and badge (template components) */
+.t-Avatar {
+  border: 0;
+  background: var(--nm-bg);
+  color: var(--nm-accent-text);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-Avatar img { border-radius: inherit; }
+.t-Avatar[class*="u-color-"] { box-shadow: var(--nm-raised-sm); }
+.t-Avatar--noShape { background: transparent; box-shadow: none; }
+/* stacked avatars overlap: a ring in the page color keeps them apart */
+.t-Avatars--spacingStack .t-Avatar { box-shadow: 0 0 0 3px var(--nm-bg), var(--nm-raised-sm); }
+.t-Badge {
+  border: 0;
+  border-radius: var(--nm-radius-pill);
+  box-shadow: var(--nm-inset-sm);
+}
+.t-Badge--subtle, .t-Badge:not([class*="u-"]):not([class*="t-Badge--"]) { background: var(--nm-bg); color: var(--nm-text); }
+
+/* metric card */
+.t-MetricCard {
+  border: 0;
+  border-radius: var(--nm-radius);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised);
+}
+.t-MetricCard-value, .t-MetricCard-title { color: var(--nm-text); }
+.t-MetricCard-label, .t-MetricCard-subtitle, .t-MetricCard-supplemental { color: var(--nm-text-2); }
+
+/* =====================================================================================================================
+   9. Interactive Report, Interactive Grid, Cards region, Faceted Search, charts, calendar
+   ===================================================================================================================== */
+/* interactive report */
+.a-IRR-container, .t-IRR-region { border: 0; background: transparent; }
+.a-IRR { border: 0; border-radius: var(--nm-radius); background: var(--nm-bg); box-shadow: none; }
+.a-IRR-toolbar { border: 0; background: transparent; }
+.a-IRR-search-field, .a-IRR-searchFieldContainer input, .a-IRR-search-field.apex-item-text {
+  border: 0;
+  border-radius: var(--nm-radius-pill);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-inset);
+}
+.a-IRR-header, .a-IRR-table th { border-color: var(--nm-line); background: var(--nm-hover); color: var(--nm-text); }
+.a-IRR-table td { border-color: var(--nm-line); color: var(--nm-text); }
+.a-IRR-table tr:hover td { background: var(--nm-hover); }
+.a-IRR-controls, .a-IRR-controlsContainer { border: 0; background: transparent; }
+.a-IRR-controls-cell { border-radius: var(--nm-radius-sm); }
+.a-IRR-pagination-label { color: var(--nm-text-2); }
+.a-IRR-button, .a-IRR-buttons .a-Button { border-radius: 10px; }
+.a-IRR-singleRow-row { border-color: var(--nm-line); }
+
+/* interactive grid */
+.a-IG { border: 0; background: transparent; }
+.a-IG-header { border: 0; background: transparent; }
+.a-IG-body, .a-GV { border: 0; border-radius: var(--nm-radius-sm); }
+.a-GV-hdr { background: var(--nm-hover); }
+.a-GV-header { color: var(--nm-text); }
+.a-GV-cell { color: var(--nm-text); }
+.a-GV-row.is-selected .a-GV-cell { background: var(--nm-accent-tint); }
+.a-GV-cell.is-focused { box-shadow: inset 0 0 0 2px var(--nm-accent); }
+.a-GV-footer { border-color: var(--nm-line); background: var(--nm-bg); color: var(--nm-text-2); }
+.a-Toolbar-input, .a-Toolbar .a-Toolbar-input {
+  border: 0;
+  border-radius: var(--nm-radius-pill);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-inset);
+}
+.a-Toolbar-selectList { border: 0; border-radius: 10px; background-color: var(--nm-bg); box-shadow: var(--nm-inset-sm); }
+.a-Toolbar-pillButton, .a-Toolbar-group--pill > .a-Button { box-shadow: var(--nm-raised-sm); }
+
+/* cards region (native) */
+.a-CardView { border: 0; }
+.a-CardView-item { border-radius: var(--nm-radius); }
+.a-CardView-iconWrap .a-CardView-icon, .a-CardView-icon { border-radius: var(--nm-radius-sm); box-shadow: var(--nm-raised-sm); }
+.a-CardView-title { color: var(--nm-text); }
+.a-CardView-subTitle, .a-CardView-mainContent, .a-CardView-subContent { color: var(--nm-text-2); }
+.a-CardView-badge { border-radius: var(--nm-radius-pill); box-shadow: var(--nm-inset-sm); }
+
+/* faceted search and smart filters */
+.a-FS-control { border-radius: var(--nm-radius-sm); }
+.a-FS-search .apex-item-text, .a-FS-search input { border-radius: var(--nm-radius-pill); box-shadow: var(--nm-inset); }
+.a-FS-currentFacets .a-Chip, .a-FS-bar .a-Chip { box-shadow: var(--nm-raised-sm); }
+.a-FS-input--search, .a-SmartFilter-input, .a-SmartFilter .a-SmartFilter-search {
+  border: 0;
+  border-radius: var(--nm-radius-pill);
+  background: var(--nm-bg);
+  box-shadow: var(--nm-inset);
+}
+
+/* charts: transparent plot area so the region surface shows */
+.a-JET-chart, .oj-dvt-chart, .oj-chart, .oj-picto-chart, .oj-gauge { background: transparent; }
+
+/* calendar: FullCalendar sets its variables on .fc, so the kit sets them there too */
+.fc {
+  --fc-page-bg-color: var(--nm-bg);
+  --fc-neutral-bg-color: var(--nm-hover);
+  --fc-neutral-text-color: var(--nm-text-2);
+  --fc-border-color: var(--nm-line);
+  --fc-today-bg-color: var(--nm-accent-tint);
+  --fc-list-event-hover-bg-color: var(--nm-hover);
+  --fc-highlight-color: var(--nm-accent-tint);
+  --fc-now-indicator-color: var(--nm-danger);
+}
+.fc .fc-button, .fc .fc-button-primary {
+  border: 0;
+  border-radius: 10px;
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-raised-sm);
+  text-shadow: none;
+}
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active { background: var(--nm-bg); color: var(--nm-accent-text); box-shadow: var(--nm-inset-sm); }
+.fc .fc-button:focus { box-shadow: var(--nm-raised-sm), var(--nm-focus); }
+.fc .fc-toolbar-title { color: var(--nm-text); }
+.fc .fc-daygrid-event, .fc .fc-timegrid-event { border-radius: 8px; }
+.fc .fc-scrollgrid { border-radius: var(--nm-radius-sm); }
+.fc .fc-col-header-cell-cushion, .fc .fc-daygrid-day-number { color: var(--nm-text); }
+
+/* =====================================================================================================================
+   10. Helper classes for your own regions and items (CSS Classes property)
+   ===================================================================================================================== */
+.nm-raised { border: 0 !important; background: var(--nm-bg) !important; box-shadow: var(--nm-raised) !important; }
+.nm-raised-sm { border: 0 !important; background: var(--nm-bg) !important; box-shadow: var(--nm-raised-sm) !important; }
+.nm-inset { border: 0 !important; background: var(--nm-bg) !important; box-shadow: var(--nm-inset) !important; }
+.nm-flat { border: 0 !important; box-shadow: none !important; }
+.nm-convex {
+  border: 0 !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--nm-bg) 92%, #fff), color-mix(in srgb, var(--nm-bg) 90%, #000)) !important;
+  box-shadow: var(--nm-raised) !important;
+}
+.nm-pill { border-radius: var(--nm-radius-pill) !important; }
+.nm-accent { background: var(--nm-accent-fill) !important; color: var(--nm-on-accent) !important; box-shadow: var(--nm-accent-shadow) !important; }
+
+/* =====================================================================================================================
+   11. Focus and motion
+   ===================================================================================================================== */
+:focus-visible { outline-color: var(--nm-accent); }
+@media (prefers-reduced-motion: reduce) {
+  .t-Button, .t-Card-wrap, .t-LinksList-link, .t-MediaList-itemWrap, .t-Tabs-link, .t-ContentRow-wrap { transition: none !important; transform: none !important; }
+}
