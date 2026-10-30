@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.11 (2026-10-30)
+
+- Navigation Bar lists in the page body: raised buttons like in the header, and the bar wraps instead of cutting off items in narrow regions.
+- Media List with Span Horizontal: the items wrap inside the region instead of running past its edge.
+
 ## 1.0.10 (2026-10-30)
 
 - Tabs, Region Display Selector and pill-button radio groups: the selected item's raised shadow fits inside the bar (it was cut off at the top and bottom), and every tab is fully rounded, also in the Pill style.

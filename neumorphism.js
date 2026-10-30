@@ -1,5 +1,5 @@
 /*
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.10: light and dark mode
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.11: light and dark mode
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * The look is in neumorphism.css; this file only switches between light and dark. Without it the kit stays light,

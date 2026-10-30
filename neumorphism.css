@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.10 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.11 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -1190,6 +1190,9 @@ a.t-MediaList-itemWrap:active { box-shadow: var(--nm-inset-sm); }
 .t-MediaList-desc { color: var(--nm-text-2); }
 .t-MediaList-badge { border-radius: var(--nm-radius-pill); background: var(--nm-bg); color: var(--nm-text); box-shadow: var(--nm-inset-sm); }
 .t-MediaList--cols .t-MediaList-item { border: 0; }
+/* Span Horizontal: Universal Theme keeps one row that runs out of narrow regions; let the items wrap instead */
+.t-MediaList--horizontal { flex-wrap: wrap !important; }
+.t-MediaList--horizontal .t-MediaList-item { flex: 1 1 190px; min-width: 0; }
 
 /* badge list: plain lists show each value in a raised tile; colored lists (u-colors) keep their colors and get depth */
 .t-BadgeList { border: 0; background: transparent; }
@@ -1257,8 +1260,17 @@ a.t-MediaList-itemWrap:active { box-shadow: var(--nm-inset-sm); }
 .a-MenuBar-label, .a-MenuBar-item .a-MenuBar-label { color: var(--nm-text); }
 .a-MenuBar-item.is-current .a-MenuBar-label { color: var(--nm-accent-text); }
 
-/* navigation bar list in the page body */
-.t-NavigationBar-item .t-Button--navBar { border-radius: var(--nm-radius-sm); }
+/* navigation bar list in the page body: raised like in the header, and it wraps instead of cutting items off */
+.t-Region .t-NavigationBar { flex-wrap: wrap; gap: 10px; }
+.t-NavigationBar .t-Button--navBar {
+  border: 0;
+  border-radius: var(--nm-radius-sm);
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  box-shadow: var(--nm-raised-sm);
+}
+.t-NavigationBar .t-Button--navBar:hover { color: var(--nm-accent-text); background: var(--nm-bg); }
+.t-NavigationBar .t-Button--navBar:active, .t-NavigationBar .t-Button--navBar.is-active { box-shadow: var(--nm-inset-sm); }
 
 /* wizard progress list */
 .t-WizardSteps { padding-block: 8px; }
