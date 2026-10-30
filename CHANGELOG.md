@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.10 (2026-10-30)
+
+- Tabs, Region Display Selector and pill-button radio groups: the selected item's raised shadow fits inside the bar (it was cut off at the top and bottom), and every tab is fully rounded, also in the Pill style.
+
 ## 1.0.9 (2026-10-30)
 
 - Tabs Container: one raised card, with the tab bar pressed in at its top and the tab's content padded below it.

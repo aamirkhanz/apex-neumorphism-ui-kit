@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.9 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.0.10 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -58,6 +58,8 @@ html.nm-light {
                calc(var(--nm-depth) * -1) calc(var(--nm-depth) * -1) var(--nm-blur) var(--nm-shadow-light);
   --nm-raised-sm: calc(var(--nm-depth) * .5) calc(var(--nm-depth) * .5) calc(var(--nm-blur) * .5) var(--nm-shadow-dark),
                   calc(var(--nm-depth) * -.5) calc(var(--nm-depth) * -.5) calc(var(--nm-blur) * .5) var(--nm-shadow-light);
+  /* inside clipped bars (tabs, segmented controls): small enough to fit in their padding */
+  --nm-raised-xs: 2px 2px 4px var(--nm-shadow-dark), -2px -2px 4px var(--nm-shadow-light);
   --nm-raised-lg: calc(var(--nm-depth) * 1.4) calc(var(--nm-depth) * 1.4) calc(var(--nm-blur) * 1.4) var(--nm-shadow-dark),
                   calc(var(--nm-depth) * -1.4) calc(var(--nm-depth) * -1.4) calc(var(--nm-blur) * 1.4) var(--nm-shadow-light);
   --nm-inset: inset calc(var(--nm-depth) * .6) calc(var(--nm-depth) * .6) var(--nm-blur) var(--nm-shadow-dark),
@@ -690,17 +692,17 @@ body { background: var(--nm-bg); color: var(--nm-text); }
 .t-TabsRegion .t-TabsRegion-items .t-Region { box-shadow: none; background: transparent; }
 .t-Tabs {
   gap: 6px;
-  padding: 6px;
+  padding: 7px;
   border: 0;
   border-radius: var(--nm-radius);
   background: var(--nm-bg);
   box-shadow: var(--nm-inset);
 }
 .t-Tabs-item { border: 0; }
-.t-Tabs-link { border: 0; border-radius: var(--nm-radius-sm); color: var(--nm-text-2); transition: box-shadow var(--nm-speed), color var(--nm-speed); }
+.t-Tabs-link { border: 0; border-radius: var(--nm-radius-sm) !important; color: var(--nm-text-2); transition: box-shadow var(--nm-speed), color var(--nm-speed); }
 .t-Tabs-link::before, .t-Tabs-link::after { display: none !important; }
 .t-Tabs-link:hover { color: var(--nm-text); background: transparent; }
-.t-Tabs-item.is-active .t-Tabs-link { background: var(--nm-bg); color: var(--nm-accent-text); box-shadow: var(--nm-raised-sm); font-weight: 700; }
+.t-Tabs-item.is-active .t-Tabs-link { background: var(--nm-bg); color: var(--nm-accent-text); box-shadow: var(--nm-raised-xs); font-weight: 700; }
 .t-TabsRegion .a-Tabs-panel, .t-TabsRegion-items > div { border: 0; }
 
 /* carousel: round raised previous/next buttons and pressed-in dots */
@@ -744,7 +746,7 @@ body { background: var(--nm-bg); color: var(--nm-text); }
   color: var(--nm-text-2);
 }
 .a-RDS-link::before, .a-RDS-link::after, .apex-rds-item a::after { display: none !important; }
-.a-RDS-item.apex-rds-selected .a-RDS-link { background: var(--nm-bg); color: var(--nm-accent-text); box-shadow: var(--nm-raised-sm); font-weight: 700; }
+.a-RDS-item.apex-rds-selected .a-RDS-link { background: var(--nm-bg); color: var(--nm-accent-text); box-shadow: var(--nm-raised-xs); font-weight: 700; }
 
 /* wizard */
 .t-Wizard { border: 0; border-radius: var(--nm-radius-lg); background: var(--nm-bg); box-shadow: var(--nm-raised); }
@@ -994,7 +996,7 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
 .apex-button-group input:checked + label {
   background: var(--nm-bg) !important;
   color: var(--nm-accent-text) !important;
-  box-shadow: var(--nm-raised-sm) !important;
+  box-shadow: var(--nm-raised-xs) !important;
   font-weight: 700;
 }
 
