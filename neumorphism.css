@@ -1,5 +1,5 @@
 /*!
- * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.4 (built and tested with APEX 26.2, theme style Iris)
+ * Neumorphism UI Kit for Oracle APEX Universal Theme 1.1.5 (built and tested with APEX 26.2, theme style Iris)
  * TechRevX, MIT License - https://github.com/aamirkhanz/apex-neumorphism-ui-kit
  *
  * Soft UI: surfaces share the page color and stand out by a light highlight top left and a soft shadow bottom right
@@ -924,6 +924,43 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
   box-shadow: var(--nm-raised-sm);
 }
 .t-Form-itemWrapper > .a-Button:active { box-shadow: var(--nm-inset-sm); }
+/* buttons attached to a field (date picker, color picker, popup LOV, show password): the end of the field, aligned with
+   it and in its color and edge, not a separate raised button */
+.t-Form-itemWrapper :is(.a-Button--calendar, .a-Button--colorPicker, .a-Button--popupLOV, .t-Button--passwordVisibility) {
+  align-self: stretch;
+  margin-inline-start: 0 !important;
+  border: 1px solid var(--a-field-input-border-color, transparent) !important;
+  border-inline-start-width: 0 !important;
+  border-radius: 0 var(--nm-radius-sm) var(--nm-radius-sm) 0 !important;
+  background: var(--a-field-input-state-background-color, var(--nm-well)) !important;
+  color: var(--nm-text-2) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.t-Form-itemWrapper :is(.a-Button--calendar, .a-Button--colorPicker, .a-Button--popupLOV, .t-Button--passwordVisibility):hover { color: var(--nm-accent-text) !important; }
+/* fields with an attached button: one well around the input and its button */
+.t-Form-itemWrapper:has(> :is(.apex-item-group--popup-lov, .apex-item-group--password, a-date-picker, a-color-picker)) > *,
+.t-Form-itemWrapper > :is(.apex-item-group--popup-lov, .apex-item-group--password),
+.t-Form-itemWrapper > :is(a-date-picker, a-color-picker) { display: flex; }
+.t-Form-itemWrapper > :is(.apex-item-group--popup-lov, .apex-item-group--password, a-date-picker, a-color-picker) {
+  flex: 1 1 auto;
+  border-radius: var(--nm-radius-sm);
+  background: var(--a-field-input-state-background-color, var(--nm-well));
+  box-shadow: var(--nm-inset);
+}
+.t-Form-itemWrapper > :is(.apex-item-group--popup-lov, .apex-item-group--password, a-date-picker, a-color-picker) > input {
+  flex: 1 1 auto;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.t-Form-itemWrapper > :is(.apex-item-group--popup-lov, .apex-item-group--password, a-date-picker, a-color-picker) :is(.a-Button--calendar, .a-Button--colorPicker, .a-Button--popupLOV, .t-Button--passwordVisibility) {
+  border: 0 !important;
+  border-inline-start: 1px solid var(--nm-line) !important;
+  background: transparent !important;
+}
+.t-Form-itemWrapper > :is(.apex-item-group--popup-lov, .apex-item-group--password, a-date-picker, a-color-picker):focus-within { box-shadow: var(--nm-inset), var(--nm-focus); }
+/* the expand button inside select one / select many: a plain icon inside the field */
+.apex-item-comboselect .a-Button--comboSelect { border: 0 !important; background: transparent !important; color: var(--nm-text-2) !important; box-shadow: none !important; }
 /* labels, help, errors */
 .t-Form-label { color: var(--nm-text); font-weight: 600; }
 .t-Form-helpText, .t-Form-inlineHelp { color: var(--nm-text-2); }

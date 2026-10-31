@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.5 (2026-10-31)
+
+- Fields with an attached button (date picker, color picker, popup LOV, show password): the field and its button are one well, with the same height, color and edge, and a thin divider before the icon.
+- Select one / select many: the expand icon sits inside the field.
+
 ## 1.1.4 (2026-10-30)
 
 - Badge List with colors and Circular values: the count sits in a clear circle inside its tile, which keeps room for it.
